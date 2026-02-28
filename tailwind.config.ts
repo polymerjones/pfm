@@ -8,13 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#070A13",
-        panel: "#101627",
-        ink: "#F4F7FF",
-        glow: "#4CC9F0"
+        bg: "#0A0A0A",
+        panel: "#111111",
+        ink: "#F5F5F5",
+        glow: "#EDEDED"
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(76, 201, 240, 0.45), 0 12px 35px rgba(76, 201, 240, 0.18)"
+        glow: "0 0 0 1px rgba(255, 255, 255, 0.22), 0 14px 34px rgba(0, 0, 0, 0.55)"
       }
     }
   },

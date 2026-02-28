@@ -121,14 +121,14 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: reduceMotion ? 0 : 12, scale: reduceMotion ? 1 : 0.99 }}
             transition={{ duration: reduceMotion ? 0.01 : 0.28, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-10 w-full max-w-lg rounded-2xl border border-white/15 bg-panel/95 p-5 shadow-glow sm:p-6"
+            className="relative z-10 w-full max-w-lg rounded-[12px] rounded-tr-[2px] border border-white/20 bg-[#101010]/95 p-5 shadow-[0_16px_50px_rgba(0,0,0,0.6)] sm:p-6"
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold">Contact</h2>
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg p-2 text-white/85 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                className="rounded-[6px] p-2 text-white/85 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />
@@ -144,7 +144,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   name="name"
                   value={form.name}
                   onChange={onChange("name")}
-                  className="min-h-12 w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                  className="min-h-12 w-full rounded-[6px] border border-white/25 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   placeholder="Your name"
                 />
               </label>
@@ -157,7 +157,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   name="subject"
                   value={form.subject}
                   onChange={onChange("subject")}
-                  className="min-h-12 w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                  className="min-h-12 w-full rounded-[6px] border border-white/25 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   placeholder="What is this about?"
                 />
               </label>
@@ -170,7 +170,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   value={form.message}
                   onChange={onChange("message")}
                   rows={5}
-                  className="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                  className="w-full rounded-[6px] border border-white/25 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   placeholder="Write your message"
                 />
               </label>
@@ -178,7 +178,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               <button
                 type="submit"
                 disabled={isSubmitting || !endpoint}
-                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border border-cyan-300/40 bg-cyan-400/20 px-4 py-3 text-sm font-semibold text-white transition hover:bg-cyan-300/25 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[8px] border border-white/30 bg-white/[0.06] px-4 py-3 text-sm font-semibold uppercase tracking-[0.12em] text-white transition hover:bg-white/[0.12] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 aria-label="Send contact message"
               >
                 <Send className="h-4 w-4" aria-hidden="true" />

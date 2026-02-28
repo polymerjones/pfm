@@ -55,16 +55,16 @@ export default function VideoLogo({ src }: VideoLogoProps) {
   }, [reduceMotion]);
 
   return (
-    <div className="mx-auto w-full max-w-[780px]">
+    <div className="mx-auto w-full max-w-[980px]">
       <div className="relative">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15)_0%,rgba(76,201,240,0.2)_25%,rgba(7,10,19,0)_70%)]" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0.03)_30%,rgba(10,10,10,0)_72%)]" />
         <video
           ref={videoRef}
           src={src}
           muted
           playsInline
           preload="auto"
-          className="block w-full h-auto object-contain mix-blend-screen [filter:contrast(1.1)_brightness(1.1)_drop-shadow(0_0_12px_rgba(255,255,255,0.55))_drop-shadow(0_0_28px_rgba(76,201,240,0.35))]"
+          className="block h-auto w-full object-contain opacity-90 [filter:contrast(1.15)_brightness(1.05)_drop-shadow(0_0_8px_rgba(255,255,255,0.38))]"
           aria-label="Paul Fisher Media logo animation"
         />
 
@@ -74,7 +74,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
             onClick={tryPlay}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`absolute left-1/2 -translate-x-1/2 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow ${
+            className={`absolute left-1/2 -translate-x-1/2 rounded-none border border-white/25 bg-black/65 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
               needsTapToPlay ? "top-1/2 -translate-y-1/2" : "bottom-3"
             }`}
             aria-label={needsTapToPlay ? "Tap to play logo video" : "Replay logo video"}
