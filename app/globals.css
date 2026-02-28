@@ -45,6 +45,36 @@ body::before {
     );
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+  background:
+    radial-gradient(70% 60% at 10% 20%, rgba(255, 255, 255, 0.09), transparent 62%),
+    radial-gradient(85% 62% at 88% 28%, rgba(255, 255, 255, 0.05), transparent 66%),
+    radial-gradient(70% 55% at 45% 85%, rgba(255, 255, 255, 0.06), transparent 68%);
+  transform-origin: 50% 50%;
+  animation: monochrome-bends 20s ease-in-out infinite alternate;
+}
+
+@keyframes monochrome-bends {
+  0% {
+    transform: rotate(0deg) scale(1) translate3d(0, 0, 0);
+    filter: blur(0px);
+  }
+  50% {
+    transform: rotate(7deg) scale(1.06) translate3d(1.5%, -1.5%, 0);
+    filter: blur(0.8px);
+  }
+  100% {
+    transform: rotate(-6deg) scale(1.04) translate3d(-1.5%, 1.2%, 0);
+    filter: blur(0.6px);
+  }
+}
+
 main {
   position: relative;
   z-index: 1;

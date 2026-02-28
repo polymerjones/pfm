@@ -94,7 +94,7 @@ export default function HomePage() {
           aria-label="Paul Fisher Media links"
         >
           <div className="flex w-full flex-col items-center gap-3">
-            {LINKS.map((link) => (
+            {LINKS.map((link, index) => (
               <LinkCard
                 key={link.label}
                 label={link.label}
@@ -103,8 +103,8 @@ export default function HomePage() {
                 href={link.kind === "external" ? link.href : undefined}
                 kind={link.kind}
                 onContact={() => setIsContactOpen(true)}
-                variants={itemVariants}
                 ariaLabel={link.ariaLabel}
+                delay={reduceMotion ? 0 : 0.06 * index}
               />
             ))}
           </div>

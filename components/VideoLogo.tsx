@@ -60,7 +60,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
           playsInline
           preload="auto"
           className={`block h-auto w-full object-contain [filter:contrast(1.15)_brightness(1.04)_drop-shadow(0_0_6px_rgba(255,255,255,0.32))] ${
-            isReady ? "opacity-88" : "opacity-0"
+            isReady ? "opacity-10" : "opacity-0"
           }`}
           style={{
             WebkitMaskImage:

@@ -1,7 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import type { LucideIcon } from "lucide-react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 
 type LinkCardProps = {
   label: string;
@@ -10,8 +11,8 @@ type LinkCardProps = {
   iconUrl?: string;
   kind: "external" | "contact";
   onContact: () => void;
-  variants: Variants;
   ariaLabel: string;
+  delay?: number;
 };
 
 const baseClasses =
@@ -24,10 +25,12 @@ export default function LinkCard({
   iconUrl,
   kind,
   onContact,
-  variants,
-  ariaLabel
+  ariaLabel,
+  delay = 0
 }: LinkCardProps) {
   const reducedMotion = useReducedMotion();
+  const cardRef = useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
+  const inView = useInView(cardRef, { amount: 0.5, once: false });
 
   const iconBadge = (
     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-white/20 bg-white/[0.02] transition group-hover:border-white/50">
@@ -48,11 +51,20 @@ export default function LinkCard({
   if (kind === "contact") {
     return (
       <motion.button
+        ref={cardRef as never}
         type="button"
-        variants={variants}
-      whileHover={reducedMotion ? {} : { x: 4 }}
-      whileTap={reducedMotion ? {} : { scale: 0.995 }}
-      onClick={onContact}
+        initial={reducedMotion ? false : { scale: 0.7, opacity: 0 }}
+        animate={
+          reducedMotion
+            ? undefined
+            : inView
+              ? { scale: 1, opacity: 1 }
+              : { scale: 0.7, opacity: 0 }
+        }
+        transition={reducedMotion ? undefined : { duration: 0.2, delay }}
+        whileHover={reducedMotion ? {} : { x: 4 }}
+        whileTap={reducedMotion ? {} : { scale: 0.995 }}
+        onClick={onContact}
       className={`${baseClasses} hover:border-white/45 hover:before:opacity-100`}
       aria-label={ariaLabel}
     >
@@ -64,7 +76,16 @@ export default function LinkCard({
 
   return (
     <motion.a
-      variants={variants}
+      ref={cardRef as never}
+      initial={reducedMotion ? false : { scale: 0.7, opacity: 0 }}
+      animate={
+        reducedMotion
+          ? undefined
+          : inView
+            ? { scale: 1, opacity: 1 }
+            : { scale: 0.7, opacity: 0 }
+      }
+      transition={reducedMotion ? undefined : { duration: 0.2, delay }}
       whileHover={reducedMotion ? {} : { x: 4 }}
       whileTap={reducedMotion ? {} : { scale: 0.995 }}
       href={href}
