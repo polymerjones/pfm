@@ -56,15 +56,16 @@ export default function VideoLogo({ src }: VideoLogoProps) {
 
   return (
     <div className="mx-auto w-full max-w-[420px]">
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-panel/70 shadow-glow backdrop-blur-sm">
-        <div className="aspect-[16/9] w-full p-3 sm:p-4">
+      <div className="relative overflow-hidden rounded-2xl">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.14)_0%,rgba(76,201,240,0.14)_28%,rgba(7,10,19,0)_70%)]" />
+        <div className="aspect-[16/9] w-full">
           <video
             ref={videoRef}
             src={src}
             muted
             playsInline
             preload="auto"
-            className="h-full w-full rounded-xl object-contain"
+            className="h-full w-full object-contain [filter:drop-shadow(0_0_8px_rgba(255,255,255,0.45))_drop-shadow(0_0_24px_rgba(76,201,240,0.35))]"
             aria-label="Paul Fisher Media logo animation"
           />
         </div>
@@ -75,7 +76,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
             onClick={tryPlay}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center bg-black/45 text-sm font-medium text-white backdrop-blur-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow"
+            className="absolute inset-0 flex items-center justify-center bg-black/35 text-sm font-medium text-white backdrop-blur-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow"
             aria-label={needsTapToPlay ? "Tap to play logo video" : "Replay logo video"}
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2">

@@ -14,7 +14,7 @@ type LinkCardProps = {
 };
 
 const baseClasses =
-  "group relative flex min-h-12 w-full max-w-[420px] items-center justify-center gap-2 rounded-xl border border-cyan-300/35 bg-gradient-to-r from-white/10 via-white/5 to-white/10 px-5 py-3 text-[15px] font-semibold text-ink shadow-[0_0_0_1px_rgba(76,201,240,0.22),0_10px_28px_rgba(2,8,23,0.45)] transition hover:-translate-y-0.5 hover:border-cyan-200/75 hover:shadow-[0_0_0_1px_rgba(125,211,252,0.55),0_14px_32px_rgba(14,165,233,0.22)] active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80";
+  "group relative flex min-h-12 w-full max-w-[420px] items-center gap-3 rounded-xl border border-cyan-300/35 bg-gradient-to-r from-white/10 via-white/5 to-white/10 px-3 py-2 text-[15px] font-semibold text-ink shadow-[0_0_0_1px_rgba(76,201,240,0.22),0_10px_28px_rgba(2,8,23,0.45)] transition hover:-translate-y-0.5 hover:border-cyan-200/75 hover:shadow-[0_0_0_1px_rgba(125,211,252,0.55),0_14px_32px_rgba(14,165,233,0.22)] active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80";
 
 export default function LinkCard({
   label,
@@ -38,8 +38,10 @@ export default function LinkCard({
         className={baseClasses}
         aria-label={ariaLabel}
       >
-        <Icon className="h-4 w-4" aria-hidden="true" />
-        {label}
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-cyan-200/50 bg-cyan-200/10 shadow-[0_0_20px_rgba(76,201,240,0.35)] transition group-hover:scale-105 group-hover:bg-cyan-200/20">
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <span className="flex-1 text-left">{label}</span>
       </motion.button>
     );
   }
@@ -55,8 +57,10 @@ export default function LinkCard({
       className={baseClasses}
       aria-label={ariaLabel}
     >
-      <Icon className="h-4 w-4" aria-hidden="true" />
-      {label}
+      <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-cyan-200/50 bg-cyan-200/10 shadow-[0_0_20px_rgba(76,201,240,0.35)] transition group-hover:scale-105 group-hover:bg-cyan-200/20">
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <span className="flex-1 text-left">{label}</span>
     </motion.a>
   );
 }
