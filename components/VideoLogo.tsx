@@ -50,22 +50,24 @@ export default function VideoLogo({ src }: VideoLogoProps) {
   }, [reduceMotion]);
 
   return (
-    <div className="mx-auto w-full max-w-[620px]">
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.02)_33%,rgba(10,10,10,0)_75%)]" />
+    <div className="mx-auto w-full max-w-[640px]">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.03)_36%,rgba(10,10,10,0)_78%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,transparent_58%,#0b0b0b_100%)]" />
         <video
           ref={videoRef}
           src={src}
           muted
           playsInline
           preload="auto"
-          className={`block h-auto w-full object-contain [filter:contrast(1.15)_brightness(1.04)_drop-shadow(0_0_6px_rgba(255,255,255,0.32))] ${
-            isReady ? "opacity-10" : "opacity-0"
+          className={`block h-auto w-full object-contain mix-blend-screen [filter:contrast(1.22)_brightness(1.12)_drop-shadow(0_0_10px_rgba(255,255,255,0.5))_drop-shadow(0_0_24px_rgba(255,255,255,0.18))] ${
+            isReady ? "opacity-70" : "opacity-0"
           }`}
           style={{
             WebkitMaskImage:
-              "radial-gradient(120% 80% at 50% 42%, black 58%, transparent 100%)",
-            maskImage: "radial-gradient(120% 80% at 50% 42%, black 58%, transparent 100%)",
+              "radial-gradient(125% 90% at 50% 45%, black 56%, rgba(0,0,0,0.82) 70%, transparent 100%)",
+            maskImage:
+              "radial-gradient(125% 90% at 50% 45%, black 56%, rgba(0,0,0,0.82) 70%, transparent 100%)",
             transition: "opacity 220ms ease"
           }}
           aria-label="Paul Fisher Media logo animation"
