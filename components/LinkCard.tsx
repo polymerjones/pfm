@@ -7,6 +7,7 @@ type LinkCardProps = {
   label: string;
   href?: string;
   icon: LucideIcon;
+  iconUrl?: string;
   kind: "external" | "contact";
   onContact: () => void;
   variants: Variants;
@@ -20,12 +21,29 @@ export default function LinkCard({
   label,
   href,
   icon: Icon,
+  iconUrl,
   kind,
   onContact,
   variants,
   ariaLabel
 }: LinkCardProps) {
   const reducedMotion = useReducedMotion();
+
+  const iconBadge = (
+    <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-cyan-200/50 bg-cyan-200/10 shadow-[0_0_20px_rgba(76,201,240,0.35)] transition group-hover:scale-105 group-hover:bg-cyan-200/20">
+      {iconUrl ? (
+        <img
+          src={iconUrl}
+          alt=""
+          className="h-6 w-6 rounded-sm"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      )}
+    </span>
+  );
 
   if (kind === "contact") {
     return (
@@ -38,9 +56,7 @@ export default function LinkCard({
         className={baseClasses}
         aria-label={ariaLabel}
       >
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-cyan-200/50 bg-cyan-200/10 shadow-[0_0_20px_rgba(76,201,240,0.35)] transition group-hover:scale-105 group-hover:bg-cyan-200/20">
-          <Icon className="h-5 w-5" aria-hidden="true" />
-        </span>
+        {iconBadge}
         <span className="flex-1 text-left">{label}</span>
       </motion.button>
     );
@@ -57,9 +73,7 @@ export default function LinkCard({
       className={baseClasses}
       aria-label={ariaLabel}
     >
-      <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-cyan-200/50 bg-cyan-200/10 shadow-[0_0_20px_rgba(76,201,240,0.35)] transition group-hover:scale-105 group-hover:bg-cyan-200/20">
-        <Icon className="h-5 w-5" aria-hidden="true" />
-      </span>
+      {iconBadge}
       <span className="flex-1 text-left">{label}</span>
     </motion.a>
   );

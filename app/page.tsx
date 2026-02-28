@@ -12,6 +12,7 @@ const LINKS = [
     label: "Poly Oracle",
     href: "https://polyoracle.app",
     icon: Orbit,
+    iconUrl: "https://www.google.com/s2/favicons?domain=polyoracle.app&sz=128",
     kind: "external" as const,
     ariaLabel: "Open Poly Oracle"
   },
@@ -19,6 +20,7 @@ const LINKS = [
     label: "Poly Play",
     href: "https://polyplay.app",
     icon: Sparkles,
+    iconUrl: "https://www.google.com/s2/favicons?domain=polyplay.app&sz=128",
     kind: "external" as const,
     ariaLabel: "Open Poly Play"
   },
@@ -26,6 +28,7 @@ const LINKS = [
     label: "YouTube",
     href: "https://www.youtube.com/paulfishermedia",
     icon: Youtube,
+    iconUrl: "https://www.google.com/s2/favicons?domain=youtube.com&sz=128",
     kind: "external" as const,
     ariaLabel: "Open Paul Fisher Media YouTube"
   },
@@ -73,7 +76,7 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen overflow-x-clip px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-8 sm:gap-10">
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 sm:gap-10">
         <motion.div
           variants={itemVariants}
           initial="hidden"
@@ -96,6 +99,7 @@ export default function HomePage() {
                 key={link.label}
                 label={link.label}
                 icon={link.icon}
+                iconUrl={"iconUrl" in link ? link.iconUrl : undefined}
                 href={link.kind === "external" ? link.href : undefined}
                 kind={link.kind}
                 onContact={() => setIsContactOpen(true)}
