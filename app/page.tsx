@@ -76,7 +76,7 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen overflow-x-clip px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 sm:gap-10">
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 sm:gap-10">
         <motion.div
           variants={itemVariants}
           initial="hidden"
@@ -84,17 +84,6 @@ export default function HomePage() {
           className="w-full"
         >
           <VideoLogo src="/logo.mp4" />
-        </motion.div>
-
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="show"
-          className="text-center"
-        >
-          <p className="text-xs uppercase tracking-[0.42em] text-white/70 sm:text-sm">
-            FISHER MEDIA
-          </p>
         </motion.div>
 
         <motion.section

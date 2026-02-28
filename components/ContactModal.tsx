@@ -12,12 +12,16 @@ type ContactModalProps = {
 
 type FormState = {
   name: string;
+  email: string;
+  phone: string;
   subject: string;
   message: string;
 };
 
 const initialForm: FormState = {
   name: "",
+  email: "",
+  phone: "",
   subject: "",
   message: ""
 };
@@ -64,6 +68,12 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     if (!endpoint) {
       setStatusType("error");
       setStatusMessage("Contact form is not configured yet.");
+      return;
+    }
+
+    if (!form.email.trim() && !form.phone.trim()) {
+      setStatusType("error");
+      setStatusMessage("Please provide an email address or phone number.");
       return;
     }
 
@@ -161,6 +171,33 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   placeholder="What is this about?"
                 />
               </label>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <label className="block">
+                  <span className="mb-1 block text-sm text-white/85">Email</span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={onChange("email")}
+                    className="min-h-12 w-full rounded-[6px] border border-white/25 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    placeholder="you@example.com"
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="mb-1 block text-sm text-white/85">Phone</span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={onChange("phone")}
+                    pattern="\\(\\d{3}\\)\\d{3}-\\d{4}"
+                    className="min-h-12 w-full rounded-[6px] border border-white/25 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                    placeholder="(xxx)xxx-xxxx"
+                  />
+                </label>
+              </div>
 
               <label className="block">
                 <span className="mb-1 block text-sm text-white/85">Message</span>
