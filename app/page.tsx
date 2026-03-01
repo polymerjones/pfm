@@ -76,8 +76,8 @@ export default function HomePage() {
   );
 
   return (
-    <main className="relative min-h-screen overflow-x-clip px-4 py-10 sm:px-6 sm:py-14">
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-95 [mix-blend-mode:screen]">
+    <main className="relative min-h-screen overflow-x-clip bg-[#0a0a0a] px-4 py-10 sm:px-6 sm:py-14">
+      <div className="pointer-events-none fixed -inset-12 z-0 opacity-95 [mix-blend-mode:screen] sm:-inset-20">
         <ColorBends
           rotation={45}
           speed={0.15}
@@ -92,11 +92,12 @@ export default function HomePage() {
           noise={0.1}
         />
       </div>
-      <div className="absolute inset-x-0 top-0 z-[1] h-[55vh] min-h-[320px] max-h-[640px]">
+      <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(110%_80%_at_50%_20%,transparent_20%,rgba(10,10,10,0.5)_65%,rgba(10,10,10,0.86)_100%)]" />
+      <div className="absolute inset-x-0 top-0 z-[2] h-[62vh] min-h-[340px] max-h-[700px] sm:h-[58vh]">
         <VideoLogo src="/logo.mp4" />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[40vh] sm:gap-10 sm:pt-[38vh]">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[47vh] sm:gap-10 sm:pt-[40vh]">
 
         <motion.section
           variants={parentVariants}
