@@ -97,7 +97,7 @@ export default function HomePage() {
         <VideoLogo src="/logo.mp4" />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[49vh] sm:gap-10 sm:pt-[42vh]">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[52vh] sm:gap-10 sm:pt-[47vh]">
 
         <motion.section
           variants={parentVariants}
