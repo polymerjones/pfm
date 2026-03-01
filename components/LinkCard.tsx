@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import type { LucideIcon } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 
@@ -31,6 +32,38 @@ export default function LinkCard({
   const reducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLAnchorElement | HTMLButtonElement | null>(null);
   const inView = useInView(cardRef, { amount: 0.5, once: false });
+
+  const setGlowFromPointer = (
+    element: HTMLAnchorElement | HTMLButtonElement,
+    clientX: number,
+    clientY: number,
+    intensity: number
+  ) => {
+    const rect = element.getBoundingClientRect();
+    const x = ((clientX - rect.left) / rect.width) * 100;
+    const y = ((clientY - rect.top) / rect.height) * 100;
+    element.style.setProperty("--glow-x", `${x}%`);
+    element.style.setProperty("--glow-y", `${y}%`);
+    element.style.setProperty("--glow-intensity", `${intensity}`);
+  };
+
+  const handlePointerMove = (
+    event: ReactPointerEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => {
+    setGlowFromPointer(event.currentTarget, event.clientX, event.clientY, 1);
+  };
+
+  const handlePointerEnter = (
+    event: ReactPointerEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => {
+    setGlowFromPointer(event.currentTarget, event.clientX, event.clientY, 0.55);
+  };
+
+  const handlePointerLeave = (
+    event: ReactPointerEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => {
+    event.currentTarget.style.setProperty("--glow-intensity", "0");
+  };
 
   const iconBadge = (
     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-white/20 bg-white/[0.02] transition group-hover:border-white/50">
@@ -65,11 +98,14 @@ export default function LinkCard({
         whileHover={reducedMotion ? {} : { x: 4 }}
         whileTap={reducedMotion ? {} : { scale: 0.995 }}
         onClick={onContact}
-      className={`${baseClasses} hover:border-white/45 hover:before:opacity-100`}
-      aria-label={ariaLabel}
-    >
-      {iconBadge}
-      <span className="pr-1 text-left text-base uppercase tracking-[0.05em]">{label}</span>
+        onPointerMove={handlePointerMove}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        className={`${baseClasses} pfm-link-card hover:border-white/45 hover:before:opacity-100`}
+        aria-label={ariaLabel}
+      >
+        {iconBadge}
+        <span className="pr-1 text-left text-base uppercase tracking-[0.05em]">{label}</span>
       </motion.button>
     );
   }
@@ -91,7 +127,10 @@ export default function LinkCard({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${baseClasses} hover:border-white/45 hover:before:opacity-100`}
+      onPointerMove={handlePointerMove}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      className={`${baseClasses} pfm-link-card hover:border-white/45 hover:before:opacity-100`}
       aria-label={ariaLabel}
     >
       {iconBadge}

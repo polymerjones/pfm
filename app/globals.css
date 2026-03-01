@@ -52,6 +52,45 @@ main {
   z-index: 1;
 }
 
+.pfm-link-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-radius: 220px;
+  --glow-color: 220, 220, 220;
+}
+
+.pfm-link-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.92)) 0%,
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.42)) 32%,
+    transparent 62%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.22s ease;
+}
+
+.pfm-link-card:hover {
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.56),
+    0 0 22px rgba(255, 255, 255, calc(var(--glow-intensity) * 0.16));
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
