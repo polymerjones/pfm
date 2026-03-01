@@ -17,7 +17,7 @@ type LinkCardProps = {
 };
 
 const baseClasses =
-  "group relative inline-flex min-h-12 w-auto min-w-[220px] max-w-[300px] items-center gap-3 overflow-hidden rounded-[8px] border border-white/20 bg-[#121212] px-3 py-2 text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,0,0,0.45)] transition active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 before:pointer-events-none before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-white before:opacity-0 before:transition before:duration-200";
+  "group relative inline-flex min-h-12 w-auto min-w-[220px] max-w-[300px] items-center gap-3 overflow-hidden rounded-[8px] border border-white/20 bg-[#121212] px-3 py-2 text-[15px] font-semibold text-white shadow-[0_8px_20px_rgba(0,0,0,0.45)] transition duration-200 active:translate-y-[1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 before:pointer-events-none before:absolute before:left-0 before:top-0 before:h-full before:w-[2px] before:bg-white before:opacity-0 before:transition before:duration-200";
 
 export default function LinkCard({
   label,
@@ -65,6 +65,15 @@ export default function LinkCard({
     event.currentTarget.style.setProperty("--glow-intensity", "0");
   };
 
+  const handlePointerDown = (
+    event: ReactPointerEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => {
+    setGlowFromPointer(event.currentTarget, event.clientX, event.clientY, 1);
+    window.setTimeout(() => {
+      event.currentTarget.style.setProperty("--glow-intensity", "0.2");
+    }, 220);
+  };
+
   const iconBadge = (
     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-[6px] border border-white/20 bg-white/[0.02] transition group-hover:border-white/50">
       {iconUrl ? (
@@ -101,6 +110,7 @@ export default function LinkCard({
         onPointerMove={handlePointerMove}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
+        onPointerDown={handlePointerDown}
         className={`${baseClasses} pfm-link-card hover:border-white/45 hover:before:opacity-100`}
         aria-label={ariaLabel}
       >
@@ -130,6 +140,7 @@ export default function LinkCard({
       onPointerMove={handlePointerMove}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
       className={`${baseClasses} pfm-link-card hover:border-white/45 hover:before:opacity-100`}
       aria-label={ariaLabel}
     >

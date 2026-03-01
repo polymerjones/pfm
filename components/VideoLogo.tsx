@@ -98,8 +98,8 @@ export default function VideoLogo({ src }: VideoLogoProps) {
         muted={isMuted}
         playsInline
         preload="auto"
-        className={`pointer-events-none absolute inset-0 h-full w-full scale-[1.08] object-contain [filter:grayscale(1)_contrast(1.42)_brightness(1.16)_blur(1.2px)_drop-shadow(0_0_14px_rgba(255,255,255,0.42))] ${
-          isReady ? "opacity-50" : "opacity-0"
+        className={`pointer-events-none absolute inset-0 h-full w-full scale-[0.9] object-contain [filter:grayscale(1)_contrast(1.36)_brightness(1.12)_drop-shadow(0_0_10px_rgba(255,255,255,0.34))] ${
+          isReady ? "opacity-58" : "opacity-0"
         }`}
         style={{
           mixBlendMode: "screen",
