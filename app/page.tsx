@@ -93,11 +93,11 @@ export default function HomePage() {
         />
       </div>
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(110%_80%_at_50%_20%,transparent_20%,rgba(10,10,10,0.5)_65%,rgba(10,10,10,0.86)_100%)]" />
-      <div className="absolute inset-x-0 top-0 z-[2] h-[62vh] min-h-[340px] max-h-[700px] sm:h-[58vh]">
+      <div className="fixed inset-0 z-[2]">
         <VideoLogo src="/logo.mp4" />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[47vh] sm:gap-10 sm:pt-[40vh]">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[49vh] sm:gap-10 sm:pt-[42vh]">
 
         <motion.section
           variants={parentVariants}
