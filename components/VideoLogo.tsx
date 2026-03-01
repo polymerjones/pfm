@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
+import { RotateCcw } from "lucide-react";
 
 type VideoLogoProps = {
   src: string;
@@ -10,16 +11,25 @@ type VideoLogoProps = {
 export default function VideoLogo({ src }: VideoLogoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isReady, setIsReady] = useState(false);
+  const [showControls, setShowControls] = useState(false);
+  const [isEnded, setIsEnded] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const reduceMotion = useReducedMotion();
 
-  const tryPlay = async () => {
+  const tryPlay = async (restart = false) => {
     const video = videoRef.current;
     if (!video) return;
 
     try {
-      video.currentTime = 0;
+      if (restart) {
+        video.currentTime = 0;
+      }
       await video.play();
-    } catch {}
+      setAutoplayBlocked(false);
+      setIsEnded(false);
+    } catch {
+      setAutoplayBlocked(true);
+    }
   };
 
   useEffect(() => {
@@ -31,6 +41,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
         video.currentTime = Math.max(video.duration - 0.05, 0);
       }
       video.pause();
+      setIsEnded(true);
     };
 
     const handleCanPlay = () => setIsReady(true);
@@ -39,7 +50,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
     video.addEventListener("ended", handleEnded);
 
     if (!reduceMotion) {
-      void tryPlay();
+      void tryPlay(false);
     }
 
     return () => {
@@ -50,29 +61,64 @@ export default function VideoLogo({ src }: VideoLogoProps) {
   }, [reduceMotion]);
 
   return (
-    <div className="mx-auto w-full max-w-[640px]">
-      <div className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.03)_36%,rgba(10,10,10,0)_78%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_45%,transparent_58%,#0b0b0b_100%)]" />
-        <video
-          ref={videoRef}
-          src={src}
-          muted
-          playsInline
-          preload="auto"
-          className={`block h-auto w-full object-contain mix-blend-screen [filter:contrast(1.22)_brightness(1.12)_drop-shadow(0_0_10px_rgba(255,255,255,0.5))_drop-shadow(0_0_24px_rgba(255,255,255,0.18))] ${
-            isReady ? "opacity-70" : "opacity-0"
-          }`}
-          style={{
-            WebkitMaskImage:
-              "radial-gradient(125% 90% at 50% 45%, black 56%, rgba(0,0,0,0.82) 70%, transparent 100%)",
-            maskImage:
-              "radial-gradient(125% 90% at 50% 45%, black 56%, rgba(0,0,0,0.82) 70%, transparent 100%)",
-            transition: "opacity 220ms ease"
-          }}
-          aria-label="Paul Fisher Media logo animation"
-        />
-      </div>
+    <div
+      className="group relative h-full w-full"
+      onPointerDown={() => {
+        setShowControls(true);
+        window.setTimeout(() => setShowControls(false), 1800);
+      }}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(85%_70%_at_50%_38%,rgba(255,255,255,0.13)_0%,rgba(255,255,255,0.03)_40%,transparent_76%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0acc] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-[#0a0a0a] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-[#0a0a0a] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#0a0a0acc] to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_92%_at_50%_43%,transparent_58%,rgba(10,10,10,0.8)_78%,#0a0a0a_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0)_0%,rgba(10,10,10,0)_58%,rgba(10,10,10,0.9)_100%)]" />
+
+      <video
+        ref={videoRef}
+        src={src}
+        muted
+        playsInline
+        preload="auto"
+        className={`pointer-events-none absolute inset-0 h-full w-full object-contain [filter:grayscale(1)_contrast(1.45)_brightness(1.18)_blur(1px)_drop-shadow(0_0_14px_rgba(255,255,255,0.42))] ${
+          isReady ? "opacity-55" : "opacity-0"
+        }`}
+        style={{
+          mixBlendMode: "screen",
+          WebkitMaskImage:
+            "radial-gradient(126% 90% at 50% 42%, black 56%, rgba(0,0,0,0.82) 72%, transparent 100%),linear-gradient(to bottom,black 0%,black 58%,transparent 100%)",
+          maskImage:
+            "radial-gradient(126% 90% at 50% 42%, black 56%, rgba(0,0,0,0.82) 72%, transparent 100%),linear-gradient(to bottom,black 0%,black 58%,transparent 100%)",
+          transition: "opacity 220ms ease"
+        }}
+        aria-label="Paul Fisher Media logo animation"
+      />
+
+      <video
+        src={src}
+        muted
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden h-full w-full object-contain opacity-30 [filter:grayscale(1)_contrast(1.35)_brightness(1.15)]"
+        style={{ mixBlendMode: "lighten" }}
+      />
+
+      <button
+        type="button"
+        onClick={() => void tryPlay(true)}
+        className={`absolute right-4 top-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white ${
+          showControls
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-active:opacity-100"
+        }`}
+        aria-label={autoplayBlocked ? "Play logo animation" : "Replay logo animation"}
+      >
+        <RotateCcw className="h-3.5 w-3.5" />
+        {autoplayBlocked ? "Play" : "Replay"}
+      </button>
     </div>
   );
 }

@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: "Links to Poly Oracle, Poly Play, YouTube, and Contact.",
   metadataBase: new URL("https://paulfishermedia.com"),
   icons: {
-    icon: [{ url: "/favicon.jpg?v=4", type: "image/jpeg" }],
-    shortcut: "/favicon.jpg?v=4",
-    apple: "/favicon.jpg?v=4"
+    icon: [{ url: "/favicon.jpg?v=5", type: "image/jpeg" }],
+    shortcut: "/favicon.jpg?v=5",
+    apple: "/favicon.jpg?v=5"
   },
   openGraph: {
     title: "Paul Fisher Media",

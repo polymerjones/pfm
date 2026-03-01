@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Mail, Orbit, Sparkles, Youtube } from "lucide-react";
+import ColorBends from "@/components/ColorBends";
 import VideoLogo from "@/components/VideoLogo";
 import LinkCard from "@/components/LinkCard";
 import ContactModal from "@/components/ContactModal";
@@ -76,15 +77,26 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen overflow-x-clip px-4 py-10 sm:px-6 sm:py-14">
-      <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-8 sm:gap-10">
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="show"
-          className="w-full"
-        >
-          <VideoLogo src="/logo.mp4" />
-        </motion.div>
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-95 [mix-blend-mode:screen]">
+        <ColorBends
+          rotation={45}
+          speed={0.15}
+          colors={["#666666", "#000000", "#000000"]}
+          transparent
+          autoRotate={0.35}
+          scale={1}
+          frequency={1}
+          warpStrength={1}
+          mouseInfluence={1}
+          parallax={0.5}
+          noise={0.1}
+        />
+      </div>
+      <div className="absolute inset-x-0 top-0 z-[1] h-[55vh] min-h-[320px] max-h-[640px]">
+        <VideoLogo src="/logo.mp4" />
+      </div>
+
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[40vh] sm:gap-10 sm:pt-[38vh]">
 
         <motion.section
           variants={parentVariants}
