@@ -85,11 +85,11 @@ export default function VideoLogo({ src }: VideoLogoProps) {
       }}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(85%_70%_at_50%_38%,rgba(255,255,255,0.13)_0%,rgba(255,255,255,0.03)_40%,transparent_76%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0af2] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-44 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0ad9] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-44 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0ad9] to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#0a0a0ae6] to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(130%_98%_at_50%_43%,transparent_54%,rgba(10,10,10,0.84)_76%,#0a0a0a_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0af5] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0af0] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0af0] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0a0a0af0] to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(142%_108%_at_50%_44%,transparent_50%,rgba(10,10,10,0.9)_72%,#0a0a0a_100%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0)_0%,rgba(10,10,10,0)_58%,rgba(10,10,10,0.9)_100%)]" />
 
       <video
@@ -98,15 +98,15 @@ export default function VideoLogo({ src }: VideoLogoProps) {
         muted={isMuted}
         playsInline
         preload="auto"
-        className={`pointer-events-none absolute inset-0 h-full w-full scale-[0.9] object-contain [filter:grayscale(1)_contrast(1.36)_brightness(1.12)_drop-shadow(0_0_10px_rgba(255,255,255,0.34))] ${
-          isReady ? "opacity-58" : "opacity-0"
+        className={`pointer-events-none absolute inset-0 h-full w-full scale-[0.92] object-contain [filter:grayscale(1)_contrast(1.34)_brightness(1.1)_drop-shadow(0_0_8px_rgba(255,255,255,0.3))] ${
+          isReady ? "opacity-48" : "opacity-0"
         }`}
         style={{
           mixBlendMode: "screen",
           WebkitMaskImage:
-            "radial-gradient(134% 98% at 50% 42%, black 52%, rgba(0,0,0,0.9) 70%, transparent 100%),linear-gradient(to bottom,black 0%,black 54%,transparent 100%)",
+            "radial-gradient(145% 112% at 50% 43%, black 48%, rgba(0,0,0,0.92) 66%, transparent 100%),linear-gradient(to bottom,black 0%,black 50%,transparent 100%)",
           maskImage:
-            "radial-gradient(134% 98% at 50% 42%, black 52%, rgba(0,0,0,0.9) 70%, transparent 100%),linear-gradient(to bottom,black 0%,black 54%,transparent 100%)",
+            "radial-gradient(145% 112% at 50% 43%, black 48%, rgba(0,0,0,0.92) 66%, transparent 100%),linear-gradient(to bottom,black 0%,black 50%,transparent 100%)",
           transition: "opacity 220ms ease"
         }}
         aria-label="Paul Fisher Media logo animation"
