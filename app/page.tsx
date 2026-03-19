@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import Link from "next/link";
 import { Mail, Orbit, Sparkles, Youtube } from "lucide-react";
 import ColorBends from "@/components/ColorBends";
 import VideoLogo from "@/components/VideoLogo";
@@ -98,7 +99,6 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[62vh] sm:gap-10 sm:pt-[56vh]">
-
         <motion.section
           variants={parentVariants}
           initial="hidden"
@@ -122,6 +122,15 @@ export default function HomePage() {
             ))}
           </div>
         </motion.section>
+
+        <div className="flex w-full justify-center pb-6">
+          <Link
+            href="/polyplay-audio/privacy"
+            className="rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/72 transition hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            PolyPlay Audio Privacy
+          </Link>
+        </div>
       </div>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
