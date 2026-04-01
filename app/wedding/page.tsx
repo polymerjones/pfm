@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import ColorBends from "@/components/ColorBends";
@@ -79,6 +79,18 @@ function getYouTubeEmbedUrl(url: string) {
   return null;
 }
 
+function getYouTubeVideoIdFromEmbedUrl(embedUrl?: string | null) {
+  if (!embedUrl) {
+    return null;
+  }
+
+  try {
+    return new URL(embedUrl).pathname.split("/").filter(Boolean).pop() ?? null;
+  } catch {
+    return null;
+  }
+}
+
 export default function WeddingSamplesPage() {
   const samples = useMemo(
     () =>
@@ -92,6 +104,12 @@ export default function WeddingSamplesPage() {
   const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
 
   const activeSample = samples[activeIndex];
+  const [isPlayerReady, setIsPlayerReady] = useState(!activeSample?.embedUrl);
+  const activeThumbnailId = getYouTubeVideoIdFromEmbedUrl(activeSample?.embedUrl);
+
+  useEffect(() => {
+    setIsPlayerReady(!activeSample?.embedUrl);
+  }, [activeSample?.embedUrl]);
 
   const showPrevious = () => {
     setSlideDirection(-1);
@@ -108,7 +126,7 @@ export default function WeddingSamplesPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-[#0a0a0a] px-4 py-10 sm:px-6 sm:py-14">
+    <main className="relative min-h-[100svh] overflow-x-clip bg-[#0a0a0a] px-4 py-10 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-14 sm:pb-24">
       <div className="pointer-events-none fixed -inset-12 z-0 opacity-95 [mix-blend-mode:screen] sm:-inset-20">
         <ColorBends
           rotation={45}
@@ -125,15 +143,13 @@ export default function WeddingSamplesPage() {
         />
       </div>
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(110%_80%_at_50%_20%,transparent_20%,rgba(10,10,10,0.5)_65%,rgba(10,10,10,0.86)_100%)]" />
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[3] h-24 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0aee] to-transparent sm:h-32" />
       <div className="fixed inset-0 z-[2] opacity-10">
         <VideoLogo src="/logo.mp4" />
       </div>
 
       <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-8 pt-28 sm:gap-10 sm:pt-32">
         <section className="mx-auto flex w-full max-w-3xl flex-col items-center gap-4 text-center">
-          <div className="rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-white/75">
-            Paul Fisher Media
-          </div>
           <h1 className="text-4xl font-semibold uppercase tracking-[0.08em] text-white sm:text-6xl">
             Wedding Video Samples
           </h1>
@@ -154,21 +170,78 @@ export default function WeddingSamplesPage() {
                     <motion.div
                       key={activeSample.embedUrl}
                       custom={slideDirection}
-                      initial={{ opacity: 0, x: slideDirection > 0 ? 120 : -120, scale: 0.985 }}
+                      initial={{ opacity: 0, x: slideDirection > 0 ? 80 : -80, scale: 0.992 }}
                       animate={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: slideDirection > 0 ? -120 : 120, scale: 0.985 }}
-                      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                      exit={{ opacity: 0, x: slideDirection > 0 ? -80 : 80, scale: 0.992 }}
+                      transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                       className="absolute inset-0"
                     >
                       {activeSample.embedUrl ? (
-                        <iframe
-                          className="h-full w-full"
-                          src={activeSample.embedUrl}
-                          title={activeSample.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          referrerPolicy="strict-origin-when-cross-origin"
-                          allowFullScreen
-                        />
+                        <>
+                          <iframe
+                            className={`h-full w-full transition-opacity duration-500 ${
+                              isPlayerReady ? "opacity-100" : "opacity-0"
+                            }`}
+                            src={activeSample.embedUrl}
+                            title={activeSample.title}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
+                            onLoad={() => setIsPlayerReady(true)}
+                          />
+                          <motion.div
+                            className="pointer-events-none absolute inset-0 z-[1] overflow-hidden"
+                            initial={{ opacity: 1 }}
+                            animate={{ opacity: isPlayerReady ? 0 : 1 }}
+                            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            {activeThumbnailId ? (
+                              <>
+                                <motion.div
+                                  className="absolute inset-[-4%] bg-cover bg-center"
+                                  style={{
+                                    backgroundImage: `url(https://img.youtube.com/vi/${activeThumbnailId}/maxresdefault.jpg), url(https://img.youtube.com/vi/${activeThumbnailId}/hqdefault.jpg)`
+                                  }}
+                                  initial={{
+                                    x: slideDirection > 0 ? 80 : -80,
+                                    scale: 1.08,
+                                    rotate: slideDirection > 0 ? 1.2 : -1.2
+                                  }}
+                                  animate={{
+                                    x: 0,
+                                    scale: [1.08, 1.03, 1.05],
+                                    rotate: slideDirection > 0 ? [1.2, -0.2, 0.3] : [-1.2, 0.2, -0.3]
+                                  }}
+                                  transition={{
+                                    duration: 0.6,
+                                    ease: [0.22, 1, 0.36, 1],
+                                    times: [0, 0.7, 1]
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.24)_48%,rgba(0,0,0,0.78)_100%)]" />
+                                <motion.div
+                                  className="absolute left-[8%] top-[14%] h-52 w-52 rounded-[58%_42%_63%_37%/40%_55%_45%_60%] bg-white/10 blur-3xl"
+                                  animate={{
+                                    x: [0, 12, -6, 0],
+                                    y: [0, -8, 5, 0],
+                                    scale: [1, 1.04, 0.98, 1]
+                                  }}
+                                  transition={{ duration: 0.65, ease: "easeInOut" }}
+                                />
+                                <motion.div
+                                  className="absolute bottom-[10%] right-[10%] h-60 w-60 rounded-[43%_57%_38%_62%/55%_41%_59%_45%] bg-white/8 blur-3xl"
+                                  animate={{
+                                    x: [0, -14, 4, 0],
+                                    y: [0, 6, -7, 0],
+                                    scale: [1, 0.97, 1.03, 1]
+                                  }}
+                                  transition={{ duration: 0.72, ease: "easeInOut" }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/18 to-black/22" />
+                              </>
+                            ) : null}
+                          </motion.div>
+                        </>
                       ) : (
                         <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),rgba(0,0,0,0.96)_68%)] px-8 text-center">
                           <div className="max-w-xl">
@@ -261,9 +334,7 @@ export default function WeddingSamplesPage() {
               <div className="flex min-w-full gap-4">
                 {samples.map((sample, index) => {
                   const isActive = index === activeIndex;
-                  const thumbnailId = sample.embedUrl
-                    ? new URL(sample.embedUrl).pathname.split("/").pop()
-                    : null;
+                  const thumbnailId = getYouTubeVideoIdFromEmbedUrl(sample.embedUrl);
 
                   return (
                     <button
