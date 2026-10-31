@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "featured": "monkey-trubble",
+  "games": [
+    {
+      "id": "monkey-trubble",
+      "name": "Monkey Trubble",
+      "titleLogo": "mt-wordmark",
+      "tagline": "Match the monkeys. Clear the jungle.",
+      "summary": "A card-matching puzzle about real primates. Flip the cards, find the pairs and clear the pile, but watch the cage: it holds just four cards.",
+      "about": "Travel through ten wild chapters, from The Bridge to the Kingdom of the Canopy, each with its own painted world, music and board shapes. Chain pairs for combo bonuses, call in Joker Caulin and MVP Vision, and tap any monkey to meet the real species. Every deal can be solved.",
+      "highlights": [
+        "10 chapters",
+        "Daily streaks",
+        "Game Center",
+        "iCloud sync"
+      ],
+      "icon": "mt-icon",
+      "hero": "mt-bg-B",
+      "capsule": "mt-capsule",
+      "media": [
+        {
+          "kind": "image",
+          "asset": "mt-shot-2",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-3",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-7",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-6",
+          "gameplay": false
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-4",
+          "gameplay": false
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-5",
+          "gameplay": false
+        },
+        {
+          "kind": "image",
+          "asset": "mt-shot-1",
+          "gameplay": false
+        }
+      ],
+      "playStoreID": "com.paulfisher.monkeytrubble",
+      "urlScheme": "monkeytrubble",
+      "status": "comingSoon",
+      "theme": {
+        "background": [
+          "#030A05",
+          "#0A1F0E",
+          "#173818"
+        ],
+        "accent": "#5BE36B",
+        "glow": "#3DCB5A",
+        "secondary": "#F5C542",
+        "text": "#F4FFF0",
+        "scene": "jungle",
+        "titleFont": "LilitaOne"
+      },
+      "miniGames": [
+        {
+          "id": "monkey-trubble",
+          "title": "Monkey Trubble",
+          "blurb": "The real game: a quick tutorial, then level 1.",
+          "url": "https://monkeytrubble.app/",
+          "embedFlag": "embed"
+        },
+        {
+          "id": "speed-match",
+          "title": "Speed Match",
+          "blurb": "Match as many monkeys as you can in 60 seconds. Chain matches for combos; clear the board for bonus time."
+        }
+      ]
+    },
+    {
+      "id": "poly-oracle",
+      "name": "Poly Oracle",
+      "titleLogo": "po-wordmark",
+      "titleScale": 1.4,
+      "tagline": "Ask the Oracle. Save the Polyverse.",
+      "summary": "Two cosmic experiences in one app. Ask the Polyverse Oracle any yes-or-no question, then blast into Stroids in the Polyverse, a fast arcade shooter built for your thumbs.",
+      "about": "Fifteen hand-tuned levels, a full cockpit HUD and a big arsenal: lasers, the plasma net, homing missiles, quad shot, freeze and the screen-clearing Pulse Cannon. Spin Polyslots for power-ups, crack open reward boxes and chase the Polyverse High Score.",
+      "highlights": [
+        "15 levels",
+        "Game Center",
+        "No account needed"
+      ],
+      "icon": "po-icon",
+      "hero": "po-hero",
+      "heroFit": "fit",
+      "symbol": "eye.circle",
+      "capsule": "po-capsule",
+      "media": [
+        {
+          "kind": "video",
+          "asset": "po-short-klobb.mp4",
+          "poster": "po-short-klobb-poster",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-3",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-4",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-5",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-9",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-7",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-6",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-1",
+          "gameplay": true
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-8",
+          "gameplay": false
+        },
+        {
+          "kind": "image",
+          "asset": "po-shot-2",
+          "gameplay": false
+        }
+      ],
+      "appStoreID": "6760079845",
+      "playStoreID": "com.polyoracle.app",
+      "urlScheme": "polyoracle",
+      "status": "released",
+      "theme": {
+        "background": [
+          "#04020C",
+          "#120836",
+          "#2A0E5C"
+        ],
+        "accent": "#33E6FF",
+        "glow": "#A64BFF",
+        "secondary": "#FF4FD8",
+        "text": "#F1ECFF",
+        "scene": "cosmic"
+      },
+      "heroVideo": "po-hero-loop.mp4",
+      "trailer": "po-short-klobb.mp4",
+      "miniGames": [
+        {
+          "id": "stroids",
+          "title": "Stroids",
+          "blurb": "The real Stroids in the Polyverse, right here. Tap and drag to blast, net and toss stroids.",
+          "url": "https://polyoracle.app/",
+          "embedFlag": "stroids"
+        },
+        {
+          "id": "ask-the-oracle",
+          "title": "Ask the Oracle",
+          "blurb": "Ask any yes-or-no question. The Oracle sees all."
+        }
+      ]
+    },
+    {
+      "id": "polyplay-audio",
+      "kind": "sponsor",
+      "name": "PolyPlay Audio",
+      "titleLogo": "pp-wordmark",
+      "titleScale": 1.2,
+      "tagline": "Your music, offline, beautifully organized.",
+      "summary": "Import your own audio, build playlists, loop ideas, add artwork and write notes alongside what you hear, all without Wi-Fi or streaming. Also by Polymer Jones.",
+      "icon": "pp-icon",
+      "hero": "pp-promo-poster",
+      "heroVideo": "pp-promo.mp4",
+      "appStoreID": "6760799840",
+      "status": "released",
+      "theme": {
+        "background": [
+          "#0A0410",
+          "#1E0A2A",
+          "#3A0F45"
+        ],
+        "accent": "#FF4FD8",
+        "glow": "#E040FB",
+        "secondary": "#FFB3F0",
+        "text": "#FFF0FB",
+        "scene": "cosmic",
+        "titleFont": "Rajdhani-Bold"
+      }
+    }
+  ]
+}

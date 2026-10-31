@@ -10,7 +10,7 @@ type LinkCardProps = {
   href?: string;
   icon: LucideIcon;
   iconUrl?: string;
-  kind: "external" | "contact";
+  kind: "external" | "internal" | "contact";
   onContact: () => void;
   ariaLabel: string;
   delay?: number;
@@ -135,8 +135,8 @@ export default function LinkCard({
       whileHover={reducedMotion ? {} : { x: 4 }}
       whileTap={reducedMotion ? {} : { scale: 0.995 }}
       href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      target={kind === "external" ? "_blank" : undefined}
+      rel={kind === "external" ? "noopener noreferrer" : undefined}
       onPointerMove={handlePointerMove}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}

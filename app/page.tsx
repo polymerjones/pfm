@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Link from "next/link";
-import { Mail, Orbit, Sparkles, Youtube } from "lucide-react";
+import { Gamepad2, Mail, Youtube } from "lucide-react";
 import ColorBends from "@/components/ColorBends";
 import VideoLogo from "@/components/VideoLogo";
 import LinkCard from "@/components/LinkCard";
@@ -11,20 +11,11 @@ import ContactModal from "@/components/ContactModal";
 
 const LINKS = [
   {
-    label: "Poly Oracle",
-    href: "https://polyoracle.app",
-    icon: Orbit,
-    iconUrl: "https://www.google.com/s2/favicons?domain=polyoracle.app&sz=128",
-    kind: "external" as const,
-    ariaLabel: "Open Poly Oracle"
-  },
-  {
-    label: "Poly Play",
-    href: "https://polyplay.app",
-    icon: Sparkles,
-    iconUrl: "https://www.google.com/s2/favicons?domain=polyplay.app&sz=128",
-    kind: "external" as const,
-    ariaLabel: "Open Poly Play"
+    label: "Games",
+    href: "/games",
+    icon: Gamepad2,
+    kind: "internal" as const,
+    ariaLabel: "Open Games by Polymer Jones"
   },
   {
     label: "YouTube",
@@ -113,7 +104,7 @@ export default function HomePage() {
                 label={link.label}
                 icon={link.icon}
                 iconUrl={"iconUrl" in link ? link.iconUrl : undefined}
-                href={link.kind === "external" ? link.href : undefined}
+                href={link.kind !== "contact" ? link.href : undefined}
                 kind={link.kind}
                 onContact={() => setIsContactOpen(true)}
                 ariaLabel={link.ariaLabel}

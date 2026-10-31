@@ -1,0 +1,107 @@
+/* Games hub: small utilities the Tailwind config doesn't provide. */
+
+.games-hub .no-scrollbar {
+  scrollbar-width: none;
+}
+
+.games-hub .no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* App-like touch behavior: nothing on the hub is selectable or long-press-able (no text/image
+   selection highlights, no iOS magnifier or "Save Image" callout, no image dragging, no gray tap
+   flash). Text inputs stay selectable so typing works normally. */
+.games-hub {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.games-hub img,
+.games-hub video {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+.games-hub input,
+.games-hub textarea,
+.games-hub [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
+}
+
+/* The site's diagonal texture belongs to the link page, not the hub's themed backdrop. */
+body:has(.games-hub)::before {
+  content: none;
+}
+
+/* The landed game's details fade in when a card comes to rest (opacity only: compositor-friendly). */
+.games-hub .hub-fade {
+  animation: hub-fade 0.25s ease-out;
+}
+
+@keyframes hub-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Feed swipe tutorial: the dim fades in, the hand flicks up twice with a light streak, and the
+   feed itself peeks up and springs back each time. Transform/opacity only. */
+.games-hub .feed-hint-fade { animation: feed-hint-fade 3.4s ease-in-out both; }
+@keyframes feed-hint-fade { 0% { opacity: 0; } 8%, 88% { opacity: 1; } 100% { opacity: 0; } }
+
+.games-hub .feed-hint-hand { animation: feed-hint-hand 1.4s ease-in 0.45s 2 both; }
+@keyframes feed-hint-hand {
+  0% { transform: translateY(70px) rotate(0deg); opacity: 0; }
+  20% { transform: translateY(70px) rotate(0deg); opacity: 1; }
+  45% { transform: translateY(-90px) rotate(-12deg); opacity: 1; }
+  65%, 100% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+}
+
+.games-hub .feed-hint-trail { animation: feed-hint-trail 1.4s ease-out 0.45s 2 both; transform-origin: top; }
+@keyframes feed-hint-trail {
+  0%, 22% { transform: translate(-50%, -20px) scaleY(0); opacity: 0; }
+  40% { transform: translate(-50%, -40px) scaleY(1); opacity: 0.9; }
+  65%, 100% { transform: translate(-50%, -60px) scaleY(0); opacity: 0; }
+}
+
+.games-hub .feed-peek { animation: feed-peek 1.4s 0.45s 2 both; }
+@keyframes feed-peek {
+  0%, 25% { transform: translateY(0); animation-timing-function: ease-out; }
+  45% { transform: translateY(-70px); animation-timing-function: cubic-bezier(0.3, 1.5, 0.5, 1); }
+  75%, 100% { transform: translateY(0); }
+}
+
+/* About box: the extra text eases and whizzes in (opacity + transform only). */
+.games-hub .about-reveal { animation: about-reveal 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.15) both; }
+@keyframes about-reveal {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 0.9; transform: none; }
+}
+
+/* The store pill's gentle glow while the "get the app" nudge shows (opacity + transform only). */
+.games-hub .nudge-ring { position: relative; }
+.games-hub .nudge-ring::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 2px solid var(--accent);
+  animation: nudge-ring 1.6s ease-out 3;
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes nudge-ring { from { opacity: 0.9; transform: scale(1); } to { opacity: 0; transform: scale(1.18); } }
+
+/* Controls only for mouse/trackpad devices (never shown on touch screens). */
+.games-hub .pointer-only { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .games-hub .pointer-only { display: flex; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .games-hub * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
