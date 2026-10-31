@@ -105,3 +105,8 @@ body:has(.games-hub)::before {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Support goal bar: grows in once on load. */
+.support-goal-fill { transform-origin: left; animation: support-goal-grow 1.1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes support-goal-grow { from { transform: scaleX(0); } }
+@media (prefers-reduced-motion: reduce) { .support-goal-fill { animation: none; } }
