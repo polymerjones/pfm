@@ -10,6 +10,7 @@ import HeroCarousel from "./HeroCarousel";
 import { DetailPanel, GameRows, SponsorPanel } from "./Details";
 import { BackItButton, DevPanel, SupportCard } from "./ArcadeFund";
 import CreatorNote from "./CreatorNote";
+import CarouselDots from "./CarouselDots";
 import IdentityStrip from "./IdentityStrip";
 import { GameActions } from "./StoreButtons";
 import ThemeStage from "./ThemeStage";
@@ -83,7 +84,7 @@ export default function GamesHub() {
     <div
       ref={rootRef}
       className="games-hub relative isolate z-[1] min-h-[100svh] text-white"
-      style={{ fontFamily: SYSTEM_FONT, ["--card-w" as string]: "min(72vw, 380px)", ["--card-h" as string]: "min(56svh, 620px)" }}
+      style={{ fontFamily: SYSTEM_FONT, ["--card-w" as string]: "min(68vw, 380px)", ["--card-h" as string]: "min(56svh, 620px)" }}
     >
       <ThemeStage games={games} position={position} tier={tier} paused={feed !== null} />
       <Header onSupport={TIP_URL ? () => document.getElementById("support")?.scrollIntoView({ behavior: "smooth" }) : undefined} />
@@ -98,6 +99,7 @@ export default function GamesHub() {
           controlRef={carousel}
           suspended={feed !== null}
         />
+        <CarouselDots games={games} position={position} onSelect={(index) => carousel.current?.(index)} />
         <IdentityStrip games={games} position={position} actions={(game) => (game.kind === "inDevelopment" ? <BackItButton /> : <GameActions game={game} />)} />
         {/* Only the landed game's details exist; they crossfade in when a card comes to rest. */}
         <div key={landedGame.id} className="hub-fade px-4">

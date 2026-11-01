@@ -157,6 +157,54 @@ export default function HeroCarousel({
     };
   }, [games, position]);
 
+  // First visit on a touch screen: the cards nudge left twice under a fingertip dot, so it's clear
+  // they swipe. Remembered once someone has swiped (or tapped a dot); skipped for mice and reduced motion.
+  const [nudging, setNudging] = useState(false);
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const SEEN = "pj-hub-swiped";
+    const remember = () => {
+      try {
+        localStorage.setItem(SEEN, "1");
+      } catch {}
+      setNudging(false);
+    };
+    track.addEventListener("pointerdown", remember, { once: true });
+    let seen = false;
+    try {
+      seen = localStorage.getItem(SEEN) === "1";
+    } catch {}
+    const touch = window.matchMedia("(hover: none)").matches;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // The nudge really scrolls the row (snapping paused), so the next card tilts in, the dots
+    // stretch and the colors start to morph: out, back, out, back, in step with the fingertip dot.
+    const timers: number[] = [];
+    if (!seen && touch && !calm) {
+      const at = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
+      let base = 0;
+      const go = (dx: number) => track.scrollTo({ left: base + dx, behavior: "smooth" });
+      at(1400, () => {
+        base = track.scrollLeft;
+        track.style.scrollSnapType = "none";
+        setNudging(true);
+        go(64);
+      });
+      at(1400 + 680, () => go(0));
+      at(1400 + 1150, () => go(64));
+      at(1400 + 1620, () => go(0));
+      at(1400 + 2600, () => {
+        track.style.scrollSnapType = "";
+        setNudging(false);
+      });
+    }
+    return () => {
+      track.removeEventListener("pointerdown", remember);
+      timers.forEach((timer) => window.clearTimeout(timer));
+      track.style.scrollSnapType = "";
+    };
+  }, []);
+
   // ← → step through the cards (not while typing or while something covers the hub).
   useEffect(() => {
     if (suspended) return;
@@ -217,6 +265,7 @@ export default function HeroCarousel({
         </div>
       ))}
     </div>
+    {nudging && <span aria-hidden className="hub-touch-dot" />}
     <button type="button" aria-label="Previous game" disabled={landed <= 0} onClick={() => scrollTo(landed - 1)}
             className={arrow} style={{ left: "max(16px, calc(50% - var(--card-w) / 2 - 88px))" }}>
       <ChevronLeft size={30} strokeWidth={2.5} />

@@ -113,6 +113,32 @@ main {
     0 0 30px rgba(255, 255, 255, calc(var(--glow-intensity) * 0.5));
 }
 
+/* Home menu buttons: brushed chrome with a slow light sheen (after React Bits' Shiny Text), so they
+   stand apart from the dark matte About card. */
+.pfm-chrome {
+  background: linear-gradient(160deg, #fbfbfb 0%, #d4d4d4 38%, #f5f5f5 52%, #a8a8a8 100%);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+.pfm-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.9) 50%, transparent 65%) 0 0 / 250% 100%;
+  mix-blend-mode: soft-light;
+  animation: pfm-shine 3.6s linear infinite;
+}
+.pfm-shiny {
+  background: linear-gradient(110deg, #111 35%, #6b6b6b 50%, #111 65%) 0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: pfm-shine 3.6s linear infinite;
+}
+@keyframes pfm-shine {
+  from { background-position: 120% 0; }
+  to { background-position: -120% 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
