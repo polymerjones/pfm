@@ -3,14 +3,28 @@
 import { useMemo, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Link from "next/link";
-import { Gamepad2, Mail, Youtube } from "lucide-react";
+import { Clapperboard, Gamepad2, Mail, Youtube } from "lucide-react";
 import ColorBends from "@/components/ColorBends";
 import VideoLogo from "@/components/VideoLogo";
 import LinkCard from "@/components/LinkCard";
 import AboutCard from "@/components/AboutCard";
 import ContactModal from "@/components/ContactModal";
 
+/** Polyflix (film, photo and editing work). The FILM & PHOTO button stays hidden until this is set. */
+const POLYFLIX_URL: string | undefined = undefined;
+
 const LINKS = [
+  ...(POLYFLIX_URL
+    ? [
+        {
+          label: "Film & Photo",
+          href: POLYFLIX_URL,
+          icon: Clapperboard,
+          kind: "external" as const,
+          ariaLabel: "Open Polyflix: film, photography and editing"
+        }
+      ]
+    : []),
   {
     label: "Games",
     href: "/games",
