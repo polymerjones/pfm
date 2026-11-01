@@ -84,7 +84,9 @@
           "title": "Speed Match",
           "blurb": "Match as many monkeys as you can in 60 seconds. Chain matches for combos; clear the board for bonus time."
         }
-      ]
+      ],
+      "privacyURL": "https://monkeytrubble.app/privacy.html",
+      "supportURL": "https://monkeytrubble.app/support.html"
     },
     {
       "id": "poly-oracle",
@@ -188,7 +190,8 @@
           "title": "Ask the Oracle",
           "blurb": "Ask any yes-or-no question. The Oracle sees all."
         }
-      ]
+      ],
+      "privacyURL": "https://polyoracle.app/privacy"
     },
     {
       "id": "polyplay-audio",
@@ -220,9 +223,9 @@
     {
       "id": "next-game",
       "kind": "inDevelopment",
-      "name": "Next Game",
-      "tagline": "In development. Back it and help it ship sooner.",
-      "summary": "Something new is on the workbench. Every coin in the Next Game Fund goes straight into building it: art, sound, music and devices to test on. Supporters get their name in the credits and a vote on what comes next.",
+      "name": "Next Games",
+      "tagline": "In development. Back them and help them ship sooner.",
+      "summary": "New games are on the workbench. Every coin in the Next Game Fund goes straight into building them: art, sound, music and devices to test on. Supporters get their name in the credits and a vote on what comes next.",
       "status": "comingSoon",
       "theme": {
         "background": [
@@ -235,7 +238,16 @@
         "secondary": "#FFE79A",
         "text": "#FFF8E1",
         "scene": "cosmic"
-      }
+      },
+      "upcoming": [
+        {
+          "id": "idiot-boi",
+          "name": "Idiot Boi",
+          "banner": "ib-banner",
+          "titleLogo": "ib-title",
+          "blurb": "A pixel-art platformer. Run, jump and portal-hop through a psychedelic mushroom forest, one step ahead of a very angry man."
+        }
+      ]
     }
   ]
 }

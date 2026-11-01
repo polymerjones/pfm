@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ChevronLeft, Play } from "lucide-react";
+import { ChevronLeft, LifeBuoy, Play, ShieldCheck } from "lucide-react";
 import { asset, feedMedia, playables, themeVars, TIP_URL, type Game, type MiniGameRef } from "../_lib/catalog";
 import { initialTier, type Tier } from "../_lib/perf";
 import { createPositionStore } from "../_lib/position";
@@ -105,6 +105,13 @@ export default function GamePage({ game }: { game: Game }) {
           <p className="text-[15px] leading-relaxed opacity-90">{game.summary}</p>
           <StoreButtons game={game} size="wide" />
         </section>
+
+        {(game.privacyURL || game.supportURL) && (
+          <nav aria-label={`${game.name} links`} className="flex flex-wrap justify-center gap-2.5 pt-2">
+            {game.supportURL && <FooterLink href={game.supportURL} icon={<LifeBuoy size={15} />}>Support</FooterLink>}
+            {game.privacyURL && <FooterLink href={game.privacyURL} icon={<ShieldCheck size={15} />}>Privacy Policy</FooterLink>}
+          </nav>
+        )}
       </main>
 
       {playing && (
@@ -182,5 +189,17 @@ function Stage({ game, miniGame, onPlay }: { game: Game; miniGame: MiniGameRef; 
         )}
       </div>
     </section>
+  );
+}
+
+/** Small outlined pill for a game's Support / Privacy pages. */
+function FooterLink({ href, icon, children }: { href: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener"
+       className="flex min-h-[40px] items-center gap-1.5 rounded-full border px-4 text-[13px] font-semibold tracking-[0.06em] opacity-85 transition-opacity hover:opacity-100"
+       style={{ borderColor: "color-mix(in srgb, var(--accent) 35%, transparent)", background: "color-mix(in srgb, var(--bg1) 55%, transparent)" }}>
+      {icon}
+      {children}
+    </a>
   );
 }

@@ -34,6 +34,9 @@ export type MiniGameRef = {
   leaderboardID?: string;
 };
 
+/** A game shown on the In Development card: banner art with its title logo over it. */
+export type UpcomingGame = { id: string; name: string; banner: string; titleLogo?: string; blurb?: string };
+
 export type Game = {
   id: string;
   kind?: "game" | "sponsor" | "inDevelopment";
@@ -56,6 +59,10 @@ export type Game = {
   appStoreID?: string;
   playStoreID?: string;
   link?: string;
+  privacyURL?: string;
+  supportURL?: string;
+  /** In Development card only: the games being built. */
+  upcoming?: UpcomingGame[];
   status: "released" | "comingSoon" | "hidden";
   theme: GameTheme;
 };

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bungee_Inline } from "next/font/google";
 import Coin from "@/app/_components/Coin";
 import Sparkles from "@/app/_components/Sparkles";
-import { asset, themeVars, type Game } from "../_lib/catalog";
+import { asset, themeVars, type Game, type UpcomingGame } from "../_lib/catalog";
 import { NEXT_GAME_PITCHES, TIP_GOAL, TIP_URL } from "../_lib/fund-config";
 import { timeAgo, useFund } from "../_lib/useFund";
 
@@ -305,7 +305,6 @@ export function DevPanel({ game }: { game: Game }) {
   const { target } = TIP_GOAL;
   const raised = Math.max(0, fund.raised);
   const lit = Math.min(CELLS, Math.floor((raised / target) * CELLS));
-  const banner = asset(game.capsule);
   return (
     <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 rounded-[22px] border p-4 backdrop-blur-md lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center lg:gap-8 lg:p-6"
          style={{ ...themeVars(game.theme), borderColor: "color-mix(in srgb, var(--accent) 35%, transparent)", background: "color-mix(in srgb, var(--bg1) 60%, transparent)", color: "var(--text)" }}>
@@ -313,11 +312,7 @@ export function DevPanel({ game }: { game: Game }) {
         <span className="flex w-fit items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
           <span className="arcade-rec-dot" /> IN DEVELOPMENT
         </span>
-        {banner && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={banner} alt={game.name} loading="lazy" decoding="async" className="aspect-[2.33] w-full rounded-2xl border object-cover"
-               style={{ borderColor: "color-mix(in srgb, var(--accent) 30%, transparent)" }} />
-        )}
+        {(game.upcoming ?? []).map((upcoming) => <UpcomingBanner key={upcoming.id} game={upcoming} />)}
         <p className="text-[15px] leading-relaxed opacity-90 lg:text-[17px]">{game.summary}</p>
       </div>
 
@@ -347,5 +342,28 @@ export function DevPanel({ game }: { game: Game }) {
         </button>
       </div>
     </div>
+  );
+}
+
+/** One game in development: a crop of its key art with the title logo over a dark fade, then a line about it. */
+function UpcomingBanner({ game }: { game: UpcomingGame }) {
+  const logo = asset(game.titleLogo);
+  return (
+    <figure className="overflow-hidden rounded-2xl border" style={{ borderColor: "color-mix(in srgb, var(--accent) 30%, transparent)" }}>
+      <div className="relative aspect-[2.33] w-full">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={asset(game.banner)} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
+        {logo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={logo} alt={game.name} loading="lazy" decoding="async"
+               className="absolute inset-x-0 bottom-[6%] mx-auto w-[62%] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]" />
+        ) : (
+          <span className="absolute inset-x-0 bottom-3 text-center text-2xl font-extrabold">{game.name}</span>
+        )}
+        <span className="absolute right-2.5 top-2.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold tracking-[0.14em] text-white/85">IN DEVELOPMENT</span>
+      </div>
+      {game.blurb && <figcaption className="bg-black/45 px-3.5 py-2.5 text-[14px] leading-snug opacity-90">{game.blurb}</figcaption>}
+    </figure>
   );
 }
