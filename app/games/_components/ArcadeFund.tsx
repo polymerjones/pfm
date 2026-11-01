@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bungee_Inline } from "next/font/google";
+import Coin from "@/app/_components/Coin";
 import { NEXT_GAME_PITCHES, TIP_GOAL } from "../_lib/fund-config";
 import { timeAgo, useFund } from "../_lib/useFund";
 
@@ -109,7 +110,7 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
         <a href={tipURL} target="_blank" rel="noopener"
            className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3.5 text-[17px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
            style={{ background: "#ffd23f", color: "#1a1200" }}>
-          <span className="arcade-coin-slot" aria-hidden /> INSERT COIN
+          <Coin /> INSERT COIN
         </a>
         <p className="mt-2 text-center text-[10.5px] font-semibold tracking-[0.1em] opacity-60" style={{ fontFamily: MONO }}>
           $3 = 1 CREDIT · $5 = 2 · $10 = 4

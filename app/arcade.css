@@ -55,15 +55,12 @@
 /* INSERT COIN: a coin slot glyph and a slow pulse. */
 .arcade-coin { box-shadow: 0 0 18px color-mix(in srgb, var(--coin) 55%, transparent); animation: arcade-pulse 2.2s ease-in-out infinite; }
 @keyframes arcade-pulse { 50% { transform: scale(1.03); } }
-.arcade-coin-slot {
-  display: inline-block;
-  width: 5px;
-  height: 18px;
-  border-radius: 3px;
-  background: currentColor;
-  box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 35%, transparent);
+.arcade-coin-icon {
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  animation: arcade-coin-flip 3.6s ease-in-out infinite;
 }
-.arcade-footer-pill .arcade-coin-slot { color: var(--coin); }
+@keyframes arcade-coin-flip { 0%, 78% { transform: rotateY(0); } 92%, 100% { transform: rotateY(360deg); } }
 
 /* Guestbook crawl */
 .arcade-ticker-track { animation: arcade-ticker linear infinite; }
@@ -91,7 +88,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .arcade-marquee::before, .arcade-marquee::after, .arcade-jackpot, .arcade-cell.is-lit, .arcade-cell.is-next,
-  .arcade-coin, .arcade-mini-cell.is-next, .arcade-confetti { animation: none !important; }
+  .arcade-coin, .arcade-coin-icon, .arcade-mini-cell.is-next, .arcade-confetti { animation: none !important; }
   .arcade-ticker-track { animation: none !important; flex-wrap: wrap; white-space: normal; }
   .arcade-ticker-track > [aria-hidden] { display: none; }
 }
