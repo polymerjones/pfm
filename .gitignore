@@ -11,3 +11,5 @@ pnpm-debug.log*
 
 # TypeScript incremental build info
 tsconfig.tsbuildinfo
+.vercel
+.env*

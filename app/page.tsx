@@ -11,9 +11,16 @@ import AboutCard from "@/components/AboutCard";
 import ContactModal from "@/components/ContactModal";
 
 /** Polyflix (film, photo and editing work). The FILM & PHOTO button stays hidden until this is set. */
-const POLYFLIX_URL: string | undefined = undefined;
+const POLYFLIX_URL: string | undefined = "https://polyflix.app";
 
 const LINKS = [
+  {
+    label: "Games",
+    href: "/games",
+    icon: Gamepad2,
+    kind: "internal" as const,
+    ariaLabel: "Open Games by Polymer Jones"
+  },
   ...(POLYFLIX_URL
     ? [
         {
@@ -25,13 +32,6 @@ const LINKS = [
         }
       ]
     : []),
-  {
-    label: "Games",
-    href: "/games",
-    icon: Gamepad2,
-    kind: "internal" as const,
-    ariaLabel: "Open Games by Polymer Jones"
-  },
   {
     label: "YouTube",
     href: "https://www.youtube.com/paulfishermedia",
