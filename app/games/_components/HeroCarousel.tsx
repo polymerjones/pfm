@@ -177,31 +177,51 @@ export default function HeroCarousel({
     } catch {}
     const touch = window.matchMedia("(hover: none)").matches;
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // The nudge really scrolls the row (snapping paused), so the next card tilts in, the dots
-    // stretch and the colors start to morph: out, back, out, back, in step with the fingertip dot.
+    // The nudge really scrolls the row so the next card tilts in, the dots stretch and the colors
+    // start to morph. It's driven frame by frame here (not the browser's smooth scrolling, which
+    // differs between browsers), with snapping paused, and it stops the moment anyone touches.
     const timers: number[] = [];
+    let frame = 0;
+    const finish = () => {
+      cancelAnimationFrame(frame);
+      timers.forEach((timer) => window.clearTimeout(timer));
+      track.style.scrollSnapType = "";
+      setNudging(false);
+    };
+    const stopOnTouch = () => finish();
     if (!seen && touch && !calm) {
-      const at = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
-      let base = 0;
-      const go = (dx: number) => track.scrollTo({ left: base + dx, behavior: "smooth" });
-      at(1400, () => {
-        base = track.scrollLeft;
-        track.style.scrollSnapType = "none";
-        setNudging(true);
-        go(64);
-      });
-      at(1400 + 680, () => go(0));
-      at(1400 + 1150, () => go(64));
-      at(1400 + 1620, () => go(0));
-      at(1400 + 2600, () => {
-        track.style.scrollSnapType = "";
-        setNudging(false);
-      });
+      timers.push(
+        window.setTimeout(() => {
+          const base = track.scrollLeft;
+          const reach = 64;
+          const duration = 2600;
+          const begin = performance.now();
+          // Out and back twice: a sine bump, eased at the ends.
+          const offset = (t: number) => {
+            const half = t < 0.5 ? t / 0.5 : (t - 0.5) / 0.5;
+            return reach * Math.pow(Math.sin(Math.PI * Math.min(1, half / 0.7)), 2);
+          };
+          track.style.scrollSnapType = "none";
+          setNudging(true);
+          track.addEventListener("touchstart", stopOnTouch, { once: true, passive: true });
+          const step = (now: number) => {
+            const t = (now - begin) / duration;
+            if (t >= 1) {
+              track.scrollLeft = base;
+              finish();
+              return;
+            }
+            track.scrollLeft = base + offset(t);
+            frame = requestAnimationFrame(step);
+          };
+          frame = requestAnimationFrame(step);
+        }, 1400),
+      );
     }
     return () => {
       track.removeEventListener("pointerdown", remember);
-      timers.forEach((timer) => window.clearTimeout(timer));
-      track.style.scrollSnapType = "";
+      track.removeEventListener("touchstart", stopOnTouch);
+      finish();
     };
   }, []);
 
@@ -346,8 +366,8 @@ function HeroCard({
       )}
       {game.kind === "inDevelopment" && !hero && <DevHeroArt name={game.name} />}
       {game.kind === "inDevelopment" && (
-        <span className="arcade-dev-badge absolute left-3.5 top-3.5 flex items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/65 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
-          <span className="arcade-rec-dot" /> IN DEVELOPMENT
+        <span className="arcade-dev-badge absolute left-3.5 top-3.5 rounded-full border border-[#ffd23f]/60 bg-black/65 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
+          IN DEVELOPMENT
         </span>
       )}
       {game.kind === "sponsor" && (

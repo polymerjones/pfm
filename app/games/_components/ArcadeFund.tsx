@@ -292,9 +292,9 @@ export function BackItButton() {
 export function DevHeroArt({ name }: { name: string }) {
   return (
     <div className="arcade-dev-art absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
-      <div className="text-[11px] font-semibold tracking-[0.3em] text-white/70">POLYMER JONES PRESENTS</div>
+      <div className="whitespace-nowrap text-[10px] font-semibold tracking-[0.22em] text-white/70">POLYMER JONES PRESENTS</div>
       <div className={`${marqueeFont.className} arcade-cabinet-title text-[40px] leading-[1.05]`}>{name.toUpperCase()}</div>
-      <div className="text-[13px] font-bold tracking-[0.3em] text-[#ffd23f]/80">NOW IN DEVELOPMENT</div>
+      <div className="whitespace-nowrap text-[11px] font-bold tracking-[0.22em] text-[#ffd23f]/80">NOW IN DEVELOPMENT</div>
     </div>
   );
 }
@@ -309,8 +309,8 @@ export function DevPanel({ game }: { game: Game }) {
     <div className="mx-auto w-full max-w-[1180px] rounded-[22px] border p-4 backdrop-blur-md lg:p-6"
          style={{ ...themeVars(game.theme), borderColor: "color-mix(in srgb, var(--accent) 35%, transparent)", background: "color-mix(in srgb, var(--bg1) 60%, transparent)", color: "var(--text)" }}>
       <div className="mx-auto flex max-w-[860px] flex-col gap-4">
-        <span className="flex w-fit items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
-          <span className="arcade-rec-dot" /> IN DEVELOPMENT
+        <span className="w-fit rounded-full border border-[#ffd23f]/60 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
+          IN DEVELOPMENT
         </span>
         {(game.upcoming ?? []).map((upcoming) => <UpcomingBanner key={upcoming.id} game={upcoming} />)}
 

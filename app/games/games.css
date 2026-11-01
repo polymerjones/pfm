@@ -111,14 +111,15 @@ body:has(.games-hub)::before {
 }
 @keyframes hub-touch {
   0% { opacity: 0; transform: translateX(0) scale(0.8); }
-  8% { opacity: 1; transform: translateX(0) scale(1); }
-  26% { opacity: 1; transform: translateX(-70px); }
-  34% { opacity: 0; transform: translateX(-70px); }
-  40% { opacity: 0; transform: translateX(0); }
-  46% { opacity: 1; transform: translateX(0); }
-  62% { opacity: 1; transform: translateX(-70px); }
-  72%, 100% { opacity: 0; transform: translateX(-70px); }
+  5% { opacity: 1; transform: translateX(0) scale(1); }
+  20% { opacity: 1; transform: translateX(-70px); }
+  30% { opacity: 0; transform: translateX(-70px); }
+  50% { opacity: 0; transform: translateX(0); }
+  55% { opacity: 1; transform: translateX(0); }
+  70% { opacity: 1; transform: translateX(-70px); }
+  80%, 100% { opacity: 0; transform: translateX(-70px); }
 }
+
 
 /* Controls only for mouse/trackpad devices (never shown on touch screens). */
 .games-hub .pointer-only { display: none; }
