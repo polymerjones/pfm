@@ -19,11 +19,12 @@
 .arcade-marquee::after { bottom: 3px; animation-direction: reverse; }
 @keyframes arcade-chase { to { background-position: 14px 0; } }
 
-.arcade-neon {
-  color: var(--text, #fff);
-  text-shadow: 0 0 6px var(--accent, #3ff0ff), 0 0 18px var(--accent, #3ff0ff);
+.arcade-cabinet-title {
+  color: var(--coin);
+  letter-spacing: 0.02em;
+  text-shadow: 0 4px 0 #b36b00, 0 0 22px rgba(255, 210, 63, 0.45);
 }
-.arcade-jackpot { color: var(--coin); animation: arcade-flash 0.5s steps(2) 8; }
+.arcade-jackpot { animation: arcade-flash 0.5s steps(2) 8; }
 @keyframes arcade-flash { 50% { opacity: 0.35; } }
 
 .arcade-digits {

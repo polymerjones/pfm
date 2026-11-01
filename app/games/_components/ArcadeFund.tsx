@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Bungee_Inline } from "next/font/google";
 import { NEXT_GAME_PITCHES, TIP_GOAL } from "../_lib/fund-config";
 import { timeAgo, useFund } from "../_lib/useFund";
+
+// The marquee title's face: a chunky coin-op cabinet header (self-hosted by next/font).
+const marqueeFont = Bungee_Inline({ weight: "400", subsets: ["latin"], display: "swap" });
 
 const CELLS = 20;
 const MONO = 'ui-monospace, "SF Mono", Menlo, Consolas, monospace';
@@ -22,20 +26,21 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
   const shown = useRollUp(raised, ref);
 
   return (
-    <section ref={ref} id="support" className="arcade mx-4 scroll-mt-24 overflow-hidden rounded-[22px] border-2"
+    <section ref={ref} id="support" className="arcade mx-4 scroll-mt-24 lg:mx-auto lg:w-[calc(100%-2rem)] lg:max-w-[1180px] overflow-hidden rounded-[22px] border-2"
              style={{ borderColor: "color-mix(in srgb, var(--accent) 55%, transparent)", background: "color-mix(in srgb, var(--bg0) 82%, black)", color: "var(--text)" }}>
       {/* Marquee: tracked caps in a frame of chasing bulbs. */}
       <div className="arcade-marquee relative px-5 pb-6 pt-5 text-center">
         <div className="text-[11px] font-semibold tracking-[0.3em] opacity-75">POLYMER JONES PRESENTS</div>
-        <h2 className={"arcade-neon mt-1 text-[24px] font-extrabold tracking-[0.18em]" + (jackpot ? " arcade-jackpot" : "")}>
+        <h2 className={`${marqueeFont.className} arcade-cabinet-title mt-1.5 text-[30px] leading-tight lg:text-[46px]` + (jackpot ? " arcade-jackpot" : "")}>
           {jackpot ? "JACKPOT!" : TIP_GOAL.title.toUpperCase()}
         </h2>
         {jackpot && <Confetti />}
       </div>
 
-      <div className="px-4 pb-5">
+      {/* Phones: one column. Desktop: score screen + high scores on the left, the pitch on the right. */}
+      <div className="px-4 pb-5 lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-x-10 lg:px-8 lg:pb-8">
         {/* Score screen */}
-        <div className="rounded-2xl border px-4 pb-4 pt-3" style={{ borderColor: "color-mix(in srgb, var(--accent) 25%, transparent)", background: "rgba(0,0,0,0.55)" }}>
+        <div className="rounded-2xl border px-4 pb-4 pt-3 lg:col-start-1 lg:row-start-1" style={{ borderColor: "color-mix(in srgb, var(--accent) 25%, transparent)", background: "rgba(0,0,0,0.55)" }}>
           <div className="flex items-end justify-between gap-3" style={{ fontFamily: MONO }}>
             <div className="text-[10px] font-semibold tracking-[0.25em] opacity-60">CREDITS<br />RAISED</div>
             <div className="arcade-digits text-[34px] font-bold leading-none tabular-nums" aria-label={`$${raised} raised of $${target}`}>
@@ -94,7 +99,8 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
           )}
         </div>
 
-        <p className="mt-4 text-[15px] leading-relaxed">
+        <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:flex lg:flex-col lg:justify-center">
+        <p className="mt-4 text-[15px] leading-relaxed lg:mt-0 lg:text-[17px]">
           If you enjoy playing my games as much as I enjoy creating them for you, a tip means the world. Every one goes
           straight into the next game.
         </p>
@@ -110,10 +116,14 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
         </p>
 
         {NEXT_GAME_PITCHES.length > 0 && <Vote votes={fund.votes} />}
-        {fund.wall.length > 0 && <HighScores wall={fund.wall} />}
-        {fund.guestbook.length > 0 && <Guestbook entries={fund.guestbook} />}
+        </div>
 
-        <p className="mt-4 text-center text-[12px] leading-snug opacity-55">
+        <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+          {fund.wall.length > 0 && <HighScores wall={fund.wall} />}
+          {fund.guestbook.length > 0 && <Guestbook entries={fund.guestbook} />}
+        </div>
+
+        <p className="mt-4 text-center text-[12px] leading-snug opacity-55 lg:col-span-2 lg:mt-6">
           Leave a message with your tip and it can appear in the guestbook (after a quick look). Tick “private” on Ko-fi
           and it stays between us. Every supporter goes in the next game’s credits.
         </p>
