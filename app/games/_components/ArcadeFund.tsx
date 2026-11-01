@@ -361,8 +361,8 @@ function UpcomingBanner({ game }: { game: UpcomingGame }) {
         ) : (
           <span className="absolute inset-x-0 bottom-3 text-center text-2xl font-extrabold">{game.name}</span>
         )}
-        <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/25 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.2em] text-white/90">
-          <span className="arcade-rec-dot" /> TEASER
+        <span className="absolute right-3 top-3 rounded-full border border-white/25 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.2em] text-white/90">
+          COMING SOON
         </span>
       </div>
       {game.blurb && <figcaption className="bg-black/45 px-3.5 py-2.5 text-[14px] leading-snug opacity-90">{game.blurb}</figcaption>}
