@@ -344,8 +344,8 @@ export function DevPanel({ game }: { game: Game }) {
   );
 }
 
-/** A teaser for a game in development: its key art slowly pushing in behind letterbox bars, the title
- *  logo glowing over a dark fade, then a line about it. */
+/** A teaser for a game in development: its key art slowly pushing in, the title logo small in the
+ *  bottom-left corner (clear of the art) over a soft corner fade, then a line about it. */
 function UpcomingBanner({ game }: { game: UpcomingGame }) {
   const logo = asset(game.titleLogo);
   return (
@@ -353,17 +353,15 @@ function UpcomingBanner({ game }: { game: UpcomingGame }) {
       <div className="relative aspect-[2.33] w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={asset(game.banner)} alt="" loading="lazy" decoding="async" className="arcade-teaser-art absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
-        <div className="absolute inset-x-0 top-0 h-[7%] bg-black" />
-        <div className="absolute inset-x-0 bottom-0 h-[7%] bg-black" />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 60% at 0% 100%, rgba(0,0,0,0.7), transparent 70%)" }} />
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={logo} alt={game.name} loading="lazy" decoding="async"
-               className="arcade-teaser-title absolute inset-x-0 bottom-[11%] mx-auto w-[62%]" />
+               className="arcade-teaser-title absolute bottom-[5%] left-[3%] w-[34%]" />
         ) : (
           <span className="absolute inset-x-0 bottom-3 text-center text-2xl font-extrabold">{game.name}</span>
         )}
-        <span className="absolute right-3 top-[10%] flex items-center gap-1.5 rounded-full border border-white/25 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.2em] text-white/90">
+        <span className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/25 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.2em] text-white/90">
           <span className="arcade-rec-dot" /> TEASER
         </span>
       </div>

@@ -3,10 +3,7 @@
  * needs `position: relative`). Fixed positions and staggered timings, so no randomness at render.
  * Mostly along the edges, where they show against the dark background.
  */
-const EDGE = [
-  [4, -8], [18, 96], [30, -12], [44, 104], [58, -6], [70, 98], [84, -10], [96, 92],
-  [-2, 50], [101, 40], [12, 18], [90, 74], [50, -16], [36, 108],
-] as const;
+const EDGE = [[6, -8], [30, 102], [52, -12], [74, 98], [94, -6], [101, 55], [-2, 40], [16, 100]] as const;
 
 export default function Sparkles({ spots = EDGE, size = 1 }: { spots?: readonly (readonly [number, number])[]; size?: number }) {
   return (
@@ -18,9 +15,9 @@ export default function Sparkles({ spots = EDGE, size = 1 }: { spots?: readonly 
           style={{
             left: `${x}%`,
             top: `${y}%`,
-            fontSize: `${(i % 3 === 0 ? 14 : i % 3 === 1 ? 10 : 7) * size}px`,
-            animationDelay: `${((i * 0.37) % 2.4).toFixed(2)}s`,
-            animationDuration: `${1.6 + ((i * 0.53) % 1.2)}s`,
+            fontSize: `${(i % 3 === 0 ? 11 : i % 3 === 1 ? 8 : 6) * size}px`,
+            animationDelay: `${((i * 0.61) % 3.2).toFixed(2)}s`,
+            animationDuration: `${2.4 + ((i * 0.53) % 1.4)}s`,
           }}
         >
           ✦
@@ -31,4 +28,4 @@ export default function Sparkles({ spots = EDGE, size = 1 }: { spots?: readonly 
 }
 
 /** A tighter ring of sparkles for the coin itself. */
-export const COIN_SPOTS = [[-20, 10], [95, -18], [105, 70], [10, 100], [60, -30]] as const;
+export const COIN_SPOTS = [[95, -18], [-10, 90]] as const;
