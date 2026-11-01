@@ -2,12 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { appStoreURL, blendedTheme, featuredID, games, playStoreURL, rgb, TIP_GOAL, TIP_URL, type Game } from "../_lib/catalog";
+import { appStoreURL, blendedTheme, featuredID, games, playStoreURL, rgb, TIP_URL, type Game } from "../_lib/catalog";
 import { initialTier, type Tier } from "../_lib/perf";
 import { createPositionStore } from "../_lib/position";
 import Header from "./Header";
 import HeroCarousel from "./HeroCarousel";
-import { DetailPanel, GameRows, SponsorPanel, SupportCard } from "./Details";
+import { DetailPanel, GameRows, SponsorPanel } from "./Details";
+import { SupportCard } from "./ArcadeFund";
 import IdentityStrip from "./IdentityStrip";
 import { GameActions } from "./StoreButtons";
 import ThemeStage from "./ThemeStage";
@@ -106,7 +107,7 @@ export default function GamesHub() {
             }}
           />
         </div>
-        {TIP_URL && <SupportCard tipURL={TIP_URL} goal={TIP_GOAL} />}
+        {TIP_URL && <SupportCard tipURL={TIP_URL} />}
       </div>
       {feed && <MediaFeed game={feed.game} start={feed.start} onClose={() => setFeed(null)} />}
     </div>

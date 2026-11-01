@@ -82,15 +82,9 @@ export function playables(game: Game): MiniGameRef[] {
   return (game.miniGames ?? []).filter((ref) => ref.url || WEB_MINI_GAMES.has(ref.id));
 }
 
-/** Where tips go. Until it's set, the tip card and the header heart stay hidden. */
-export const TIP_URL: string | undefined = undefined;
-
-/** The public goal shown on the support card. Keep `raised` in step with the Ko-fi goal (manual for now). */
-export const TIP_GOAL: { title: string; raised: number; target: number } | undefined = {
-  title: "Toward the next game",
-  raised: 0,
-  target: 500,
-};
+// Tips and the Next Game Fund live in fund-config.ts (kept apart so the site-wide footer can use
+// them without pulling in the whole catalog).
+export { TIP_URL, TIP_GOAL } from "./fund-config";
 
 /** Public URL for a catalog asset name (image or video). */
 export function asset(name?: string): string | undefined {

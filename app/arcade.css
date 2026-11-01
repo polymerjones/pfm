@@ -1,0 +1,96 @@
+/* Next Game Fund: arcade pieces shared by the hub card, header meter and site footer.
+   Animations are transform/opacity/background-position only. */
+
+:root { --coin: #ffd23f; }
+
+/* Marquee: two rows of bulbs (top and bottom) that chase sideways. */
+.arcade-marquee::before,
+.arcade-marquee::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 6px;
+  background: radial-gradient(circle, var(--coin) 0 2.2px, transparent 2.8px) 0 0 / 14px 6px repeat-x;
+  filter: drop-shadow(0 0 3px var(--coin));
+  animation: arcade-chase 0.9s steps(2) infinite;
+}
+.arcade-marquee::before { top: 7px; }
+.arcade-marquee::after { bottom: 3px; animation-direction: reverse; }
+@keyframes arcade-chase { to { background-position: 14px 0; } }
+
+.arcade-neon {
+  color: var(--text, #fff);
+  text-shadow: 0 0 6px var(--accent, #3ff0ff), 0 0 18px var(--accent, #3ff0ff);
+}
+.arcade-jackpot { color: var(--coin); animation: arcade-flash 0.5s steps(2) 8; }
+@keyframes arcade-flash { 50% { opacity: 0.35; } }
+
+.arcade-digits {
+  color: var(--accent, #3ff0ff);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent, #3ff0ff) 70%, transparent);
+}
+
+/* LED bar cells: unlit = dim slot; lit = glowing accent with a sweep of light; next = blinking. */
+.arcade-cell {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.arcade-cell.is-lit {
+  background: linear-gradient(110deg, var(--accent) 40%, #fff 50%, var(--accent) 60%) 0 0 / 300% 100%;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 75%, transparent);
+  animation: arcade-cell-on 0.25s ease-out both, arcade-sweep 3.2s linear 1s infinite;
+}
+@keyframes arcade-cell-on { from { opacity: 0; } }
+@keyframes arcade-sweep { 0% { background-position: 100% 0; } 30%, 100% { background-position: 0 0; } }
+.arcade-cell.is-next { animation: arcade-blink 1.1s steps(2) infinite; }
+@keyframes arcade-blink { 50% { background: color-mix(in srgb, var(--accent) 45%, transparent); } }
+
+.arcade-prize-won {
+  background: color-mix(in srgb, var(--coin) 22%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--coin) 70%, transparent);
+}
+
+/* INSERT COIN: a coin slot glyph and a slow pulse. */
+.arcade-coin { box-shadow: 0 0 18px color-mix(in srgb, var(--coin) 55%, transparent); animation: arcade-pulse 2.2s ease-in-out infinite; }
+@keyframes arcade-pulse { 50% { transform: scale(1.03); } }
+.arcade-coin-slot {
+  display: inline-block;
+  width: 5px;
+  height: 18px;
+  border-radius: 3px;
+  background: currentColor;
+  box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 35%, transparent);
+}
+.arcade-footer-pill .arcade-coin-slot { color: var(--coin); }
+
+/* Guestbook crawl */
+.arcade-ticker-track { animation: arcade-ticker linear infinite; }
+@keyframes arcade-ticker { to { transform: translateX(-50%); } }
+
+/* JACKPOT confetti (once) */
+.arcade-confetti { opacity: 0; animation: arcade-confetti 1.6s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes arcade-confetti {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--dx), calc(var(--dy) + 140px)) rotate(var(--r)); }
+}
+
+/* Mini meter (header, footer) */
+.arcade-mini-cell { width: 4px; height: 12px; border-radius: 1.5px; background: rgba(255, 255, 255, 0.18); }
+.arcade-mini-small .arcade-mini-cell { width: 2px; height: 5px; border-radius: 1px; }
+.arcade-mini-cell.is-lit { background: var(--coin); box-shadow: 0 0 5px var(--coin); }
+.arcade-mini-cell.is-next { animation: arcade-mini-blink 1.1s steps(2) infinite; }
+@keyframes arcade-mini-blink { 50% { background: color-mix(in srgb, var(--coin) 55%, transparent); } }
+
+.arcade-footer-pill {
+  border-color: color-mix(in srgb, var(--coin) 60%, transparent);
+  background: rgba(10, 8, 0, 0.75);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--coin) 25%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-marquee::before, .arcade-marquee::after, .arcade-jackpot, .arcade-cell.is-lit, .arcade-cell.is-next,
+  .arcade-coin, .arcade-mini-cell.is-next, .arcade-confetti { animation: none !important; }
+  .arcade-ticker-track { animation: none !important; flex-wrap: wrap; white-space: normal; }
+  .arcade-ticker-track > [aria-hidden] { display: none; }
+}

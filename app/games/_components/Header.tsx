@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Heart, House } from "lucide-react";
+import FundMeter from "@/app/_components/FundMeter";
 
 /**
  * The fixed header, styled as a wordmark rather than a toolbar: "GAMES BY / POLYMER JONES" in the
@@ -26,8 +27,10 @@ export default function Header({ onSupport }: { onSupport?: () => void }) {
         </div>
       </div>
       {onSupport && (
-        <button type="button" onClick={onSupport} aria-label="Support Polymer Jones" className="p-1 opacity-85 hover:opacity-100">
-          <Heart size={24} style={{ color: "var(--text)" }} />
+        <button type="button" onClick={onSupport} aria-label="Support Polymer Jones: Next Game Fund"
+                className="flex flex-col items-center gap-1 p-1 opacity-90 hover:opacity-100">
+          <Heart size={22} style={{ color: "var(--text)" }} />
+          <FundMeter small />
         </button>
       )}
       {/* Where a settings gear usually sits: back to the site's home page. */}

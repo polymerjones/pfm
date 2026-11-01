@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import "./arcade.css";
+import KofiFooter from "./_components/KofiFooter";
 
 export const metadata: Metadata = {
   title: "Paul Fisher Media",
@@ -32,7 +34,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <KofiFooter />
+      </body>
     </html>
   );
 }

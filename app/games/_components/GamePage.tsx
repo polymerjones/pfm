@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ChevronLeft, Play } from "lucide-react";
-import { asset, feedMedia, playables, themeVars, type Game, type MiniGameRef } from "../_lib/catalog";
+import { asset, feedMedia, playables, themeVars, TIP_URL, type Game, type MiniGameRef } from "../_lib/catalog";
 import { initialTier, type Tier } from "../_lib/perf";
 import { createPositionStore } from "../_lib/position";
 import { StoreButtons } from "./StoreButtons";
@@ -143,6 +143,11 @@ function ThanksCard({ game, onDismiss }: { game: Game; onDismiss: () => void }) 
         <h2 className="text-xl font-bold">Thanks for playing!</h2>
         <p className="text-[15px] opacity-85">Get {game.name} for your phone: full screen, offline, and your progress everywhere.</p>
         <StoreButtons game={game} size="wide" />
+        {TIP_URL && (
+          <a href={TIP_URL} target="_blank" rel="noopener" className="text-sm font-bold tracking-[0.12em]" style={{ color: "#ffd23f" }}>
+            Liked it? INSERT A COIN →
+          </a>
+        )}
         <button type="button" onClick={onDismiss} className="text-sm font-semibold opacity-70">Maybe later</button>
       </div>
     </div>
