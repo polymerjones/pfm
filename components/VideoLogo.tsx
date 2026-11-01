@@ -7,6 +7,8 @@ import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 type VideoLogoProps = {
   /** Fallback (opaque) video, used only if neither transparent version can play. */
   src: string;
+  /** Flash the whole page with the animation's opening flash (the home page; not the faint watermark). */
+  flash?: boolean;
 };
 
 /**
@@ -24,7 +26,7 @@ function pickSource(fallback: string): string {
   return fallback;
 }
 
-export default function VideoLogo({ src }: VideoLogoProps) {
+export default function VideoLogo({ src, flash = false }: VideoLogoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isReady, setIsReady] = useState(false);
   const [showControls, setShowControls] = useState(false);
@@ -33,6 +35,9 @@ export default function VideoLogo({ src }: VideoLogoProps) {
   const [isMuted, setIsMuted] = useState(true);
   const reduceMotion = useReducedMotion();
   const [source, setSource] = useState<string | null>(null);
+  // Each start of the animation (load or Replay) re-mounts the flash overlay, offset by how far in
+  // the video already is, so the page lights up in step with the animation's own flash.
+  const [flashRun, setFlashRun] = useState<{ key: number; offset: number } | null>(null);
 
   useEffect(() => setSource(pickSource(src)), [src]);
 
@@ -66,6 +71,10 @@ export default function VideoLogo({ src }: VideoLogoProps) {
     };
 
     const handleCanPlay = () => setIsReady(true);
+    const handlePlaying = () => {
+      if (flash && video.currentTime < 0.3) setFlashRun((run) => ({ key: (run?.key ?? 0) + 1, offset: video.currentTime }));
+    };
+    video.addEventListener("playing", handlePlaying);
 
     video.addEventListener("canplay", handleCanPlay);
     video.addEventListener("ended", handleEnded);
@@ -77,6 +86,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
     return () => {
       video.removeEventListener("canplay", handleCanPlay);
       video.removeEventListener("ended", handleEnded);
+      video.removeEventListener("playing", handlePlaying);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reduceMotion, isMuted, source]);
@@ -103,6 +113,9 @@ export default function VideoLogo({ src }: VideoLogoProps) {
         window.setTimeout(() => setShowControls(false), 1800);
       }}
     >
+      {flashRun && !reduceMotion && (
+        <div key={flashRun.key} aria-hidden className="pfm-page-flash" style={{ animationDelay: `-${flashRun.offset}s` }} />
+      )}
       <div className="relative aspect-video max-h-[52vh] w-full max-w-[980px]">
         {reduceMotion ? (
           // eslint-disable-next-line @next/next/no-img-element

@@ -139,6 +139,33 @@ main {
   to { background-position: -120% 0; }
 }
 
+/* The logo animation's opening flash, played across the whole page. The curve follows the video's
+   own background brightness frame by frame (24 fps, ~0.7 s), lifted a little so it reads as a flash. */
+.pfm-page-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0;
+  animation: pfm-page-flash 0.71s linear both;
+}
+@keyframes pfm-page-flash {
+  0% { opacity: 0; }
+  6% { opacity: 0.21; }
+  12% { opacity: 0.17; }
+  18% { opacity: 0.15; }
+  24% { opacity: 0.06; }
+  29% { opacity: 0.04; }
+  35% { opacity: 0.02; }
+  47% { opacity: 0; }
+  59% { opacity: 0.025; }
+  71% { opacity: 0.055; }
+  82% { opacity: 0.025; }
+  94% { opacity: 0.01; }
+  100% { opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
