@@ -5,8 +5,24 @@ import { useReducedMotion } from "framer-motion";
 import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 
 type VideoLogoProps = {
+  /** Fallback (opaque) video, used only if neither transparent version can play. */
   src: string;
 };
+
+/**
+ * The logo animation with a real transparent background (a luma key of logo.mp4). Apple browsers
+ * get HEVC-with-alpha; everyone else gets VP9-with-alpha. The <video> tag can't choose on its own:
+ * Chrome on a Mac plays HEVC but drops its alpha channel.
+ */
+const ALPHA = { hevc: "/logo-alpha.mov", webm: "/logo-alpha.webm", still: "/logo-final.webp" };
+
+function pickSource(fallback: string): string {
+  const probe = document.createElement("video");
+  const apple = /Apple/.test(navigator.vendor);
+  if (apple && probe.canPlayType('video/mp4; codecs="hvc1"')) return ALPHA.hevc;
+  if (probe.canPlayType('video/webm; codecs="vp9"')) return ALPHA.webm;
+  return fallback;
+}
 
 export default function VideoLogo({ src }: VideoLogoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,6 +32,9 @@ export default function VideoLogo({ src }: VideoLogoProps) {
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const reduceMotion = useReducedMotion();
+  const [source, setSource] = useState<string | null>(null);
+
+  useEffect(() => setSource(pickSource(src)), [src]);
 
   const tryPlay = async (restart = false) => {
     const video = videoRef.current;
@@ -60,7 +79,7 @@ export default function VideoLogo({ src }: VideoLogoProps) {
       video.removeEventListener("ended", handleEnded);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduceMotion, isMuted]);
+  }, [reduceMotion, isMuted, source]);
 
   const toggleSound = async () => {
     const video = videoRef.current;
@@ -78,50 +97,33 @@ export default function VideoLogo({ src }: VideoLogoProps) {
 
   return (
     <div
-      className="group relative flex h-full w-full items-start justify-center pt-4 sm:pt-6"
+      className="group relative flex w-full items-start justify-center"
       onPointerDown={() => {
         setShowControls(true);
         window.setTimeout(() => setShowControls(false), 1800);
       }}
     >
-      <div className="relative h-[48vh] max-h-[560px] min-h-[320px] w-full max-w-[980px] sm:h-[52vh]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(85%_70%_at_50%_38%,rgba(255,255,255,0.13)_0%,rgba(255,255,255,0.03)_40%,transparent_76%)]" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0af5] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-64 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0af0] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-64 bg-gradient-to-l from-[#0a0a0a] via-[#0a0a0af0] to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0a0a0af0] to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(142%_108%_at_50%_44%,transparent_50%,rgba(10,10,10,0.9)_72%,#0a0a0a_100%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0)_0%,rgba(10,10,10,0)_58%,rgba(10,10,10,0.9)_100%)]" />
-
-        <video
-          ref={videoRef}
-          src={src}
-          muted={isMuted}
-          playsInline
-          preload="auto"
-          className={`pointer-events-none absolute inset-0 h-full w-full scale-[0.82] object-contain [filter:grayscale(1)_contrast(1.34)_brightness(1.1)_drop-shadow(0_0_8px_rgba(255,255,255,0.3))] ${
-            isReady ? "opacity-48" : "opacity-0"
-          }`}
-          style={{
-            mixBlendMode: "screen",
-            WebkitMaskImage:
-              "radial-gradient(145% 112% at 50% 43%, black 48%, rgba(0,0,0,0.92) 66%, transparent 100%),linear-gradient(to bottom,black 0%,black 50%,transparent 100%)",
-            maskImage:
-              "radial-gradient(145% 112% at 50% 43%, black 48%, rgba(0,0,0,0.92) 66%, transparent 100%),linear-gradient(to bottom,black 0%,black 50%,transparent 100%)",
-            transition: "opacity 220ms ease"
-          }}
-          aria-label="Paul Fisher Media logo animation"
-        />
-
-        <video
-          src={src}
-          muted
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 hidden h-full w-full object-contain opacity-30 [filter:grayscale(1)_contrast(1.35)_brightness(1.15)]"
-          style={{ mixBlendMode: "lighten" }}
-        />
+      <div className="relative aspect-video max-h-[52vh] w-full max-w-[980px]">
+        {reduceMotion ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={ALPHA.still} alt="Paul Fisher Media" className="pointer-events-none absolute inset-0 h-full w-full object-contain opacity-95 [filter:drop-shadow(0_0_8px_rgba(255,255,255,0.35))]" />
+        ) : (
+          source && (
+            <video
+              key={source}
+              ref={videoRef}
+              src={source}
+              muted={isMuted}
+              playsInline
+              preload="auto"
+              className={`pointer-events-none absolute inset-0 h-full w-full object-contain [filter:drop-shadow(0_0_8px_rgba(255,255,255,0.35))] ${
+                isReady ? "opacity-95" : "opacity-0"
+              }`}
+              style={{ transition: "opacity 220ms ease" }}
+              aria-label="Paul Fisher Media logo animation"
+            />
+          )
+        )}
 
         <button
           type="button"

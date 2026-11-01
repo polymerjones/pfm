@@ -86,11 +86,12 @@ export default function HomePage() {
         />
       </div>
       <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(110%_80%_at_50%_20%,transparent_20%,rgba(10,10,10,0.5)_65%,rgba(10,10,10,0.86)_100%)]" />
-      <div className="fixed inset-0 z-[2]">
+      {/* The logo sits in the page flow (above the buttons), never behind them. */}
+      <div className="relative z-10 mx-auto w-full max-w-[980px]">
         <VideoLogo src="/logo.mp4" />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 pt-[62vh] sm:gap-10 sm:pt-[56vh]">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 -mt-4 sm:-mt-14 sm:gap-10">
         <motion.section
           variants={parentVariants}
           initial="hidden"
