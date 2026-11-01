@@ -8,7 +8,7 @@ import { createPositionStore } from "../_lib/position";
 import Header from "./Header";
 import HeroCarousel from "./HeroCarousel";
 import { DetailPanel, GameRows, SponsorPanel } from "./Details";
-import { SupportCard } from "./ArcadeFund";
+import { BackItButton, DevPanel, SupportCard } from "./ArcadeFund";
 import IdentityStrip from "./IdentityStrip";
 import { GameActions } from "./StoreButtons";
 import ThemeStage from "./ThemeStage";
@@ -51,6 +51,10 @@ export default function GamesHub() {
   // Tapping the centered hero: a game opens its media feed; a sponsor goes to its store.
   const tapHero = (index: number) => {
     const game = games[index];
+    if (game.kind === "inDevelopment") {
+      document.getElementById("support")?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
     if (game.kind === "sponsor") {
       const url = appStoreURL(game) ?? playStoreURL(game) ?? game.link;
       if (url) window.open(url, "_blank", "noopener");
@@ -93,10 +97,10 @@ export default function GamesHub() {
           controlRef={carousel}
           suspended={feed !== null}
         />
-        <IdentityStrip games={games} position={position} actions={(game) => <GameActions game={game} />} />
+        <IdentityStrip games={games} position={position} actions={(game) => (game.kind === "inDevelopment" ? <BackItButton /> : <GameActions game={game} />)} />
         {/* Only the landed game's details exist; they crossfade in when a card comes to rest. */}
         <div key={landedGame.id} className="hub-fade px-4">
-          {landedGame.kind === "sponsor" ? <SponsorPanel game={landedGame} /> : <DetailPanel game={landedGame} paused={feed !== null} onOpenFeed={(start) => setFeed({ game: landedGame, start })} />}
+          {landedGame.kind === "inDevelopment" ? <DevPanel game={landedGame} /> : landedGame.kind === "sponsor" ? <SponsorPanel game={landedGame} /> : <DetailPanel game={landedGame} paused={feed !== null} onOpenFeed={(start) => setFeed({ game: landedGame, start })} />}
         </div>
         <div className="pt-3">
           <GameRows

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type MutableRefObject } from "react";
 import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 import { asset, themeVars, type Game } from "../_lib/catalog";
 import type { PositionStore } from "../_lib/position";
+import { DevHeroArt } from "./ArcadeFund";
 
 /**
  * Console-style hero carousel: one card per swipe (CSS scroll-snap), neighbors tilted, shrunk and
@@ -293,6 +294,12 @@ function HeroCard({
           className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
           style={{ opacity: videoReady ? 1 : 0 }}
         />
+      )}
+      {game.kind === "inDevelopment" && !hero && <DevHeroArt name={game.name} />}
+      {game.kind === "inDevelopment" && (
+        <span className="arcade-dev-badge absolute left-3.5 top-3.5 flex items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/65 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
+          <span className="arcade-rec-dot" /> IN DEVELOPMENT
+        </span>
       )}
       {game.kind === "sponsor" && (
         <span className="absolute left-3.5 top-3.5 rounded-full border border-white/30 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-white">

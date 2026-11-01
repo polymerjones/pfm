@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import GamePage from "../_components/GamePage";
 import { gameByID, playableGames } from "../_lib/catalog";
 import "../games.css";
@@ -29,5 +29,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function GameRoute({ params }: Params) {
   const game = gameByID((await params).id);
   if (!game || game.kind === "sponsor") notFound();
+  // Nothing to play yet: shared links land on the hub with its In Development card in front.
+  if (game.kind === "inDevelopment") redirect(`/games?game=${game.id}`);
   return <GamePage game={game} />;
 }

@@ -216,6 +216,26 @@
         "scene": "cosmic",
         "titleFont": "Rajdhani-Bold"
       }
+    },
+    {
+      "id": "next-game",
+      "kind": "inDevelopment",
+      "name": "Next Game",
+      "tagline": "In development. Back it and help it ship sooner.",
+      "summary": "Something new is on the workbench. Every coin in the Next Game Fund goes straight into building it: art, sound, music and devices to test on. Supporters get their name in the credits and a vote on what comes next.",
+      "status": "comingSoon",
+      "theme": {
+        "background": [
+          "#0B0700",
+          "#1F1503",
+          "#3A2805"
+        ],
+        "accent": "#FFD23F",
+        "glow": "#FFB800",
+        "secondary": "#FFE79A",
+        "text": "#FFF8E1",
+        "scene": "cosmic"
+      }
     }
   ]
 }

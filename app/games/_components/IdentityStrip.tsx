@@ -65,6 +65,11 @@ export default function IdentityStrip({
               Sponsored · Also by Polymer Jones
             </div>
           )}
+          {game.kind === "inDevelopment" && (
+            <div className="-mt-1 text-xs font-bold tracking-[0.2em]" style={{ color: "var(--accent)" }}>
+              IN DEVELOPMENT · NEXT FROM POLYMER JONES
+            </div>
+          )}
           <div className="flex w-full max-w-[560px] items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {game.icon && <img src={asset(game.icon)} alt="" className="h-14 w-14 rounded-[15px] border border-white/20 shadow-lg" />}

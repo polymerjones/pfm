@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Bungee_Inline } from "next/font/google";
 import Coin from "@/app/_components/Coin";
-import { NEXT_GAME_PITCHES, TIP_GOAL } from "../_lib/fund-config";
+import { asset, themeVars, type Game } from "../_lib/catalog";
+import { NEXT_GAME_PITCHES, TIP_GOAL, TIP_URL } from "../_lib/fund-config";
 import { timeAgo, useFund } from "../_lib/useFund";
 
 // The marquee title's face: a chunky coin-op cabinet header (self-hosted by next/font).
@@ -267,6 +268,80 @@ function Confetti() {
                 ["--r" as string]: `${(i * 97) % 720}deg`,
               }} />
       ))}
+    </div>
+  );
+}
+
+const scrollToFund = () => document.getElementById("support")?.scrollIntoView({ behavior: "smooth" });
+
+/** The In Development card's action (where other games show TRY IT / store): back it. */
+export function BackItButton() {
+  return (
+    <button type="button" onClick={scrollToFund}
+            className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-[14px] font-extrabold tracking-[0.14em] transition-transform active:scale-95"
+            style={{ background: "#ffd23f", color: "#1a1200", boxShadow: "0 0 14px rgba(255,210,63,0.45)" }}>
+      <Coin size={22} /> BACK IT
+    </button>
+  );
+}
+
+/** Hero art for an In Development card until its banner arrives: a lit marquee on a dark cabinet. */
+export function DevHeroArt({ name }: { name: string }) {
+  return (
+    <div className="arcade-dev-art absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center">
+      <div className="text-[11px] font-semibold tracking-[0.3em] text-white/70">POLYMER JONES PRESENTS</div>
+      <div className={`${marqueeFont.className} arcade-cabinet-title text-[40px] leading-[1.05]`}>{name.toUpperCase()}</div>
+      <div className="text-[13px] font-bold tracking-[0.3em] text-[#ffd23f]/80">NOW IN DEVELOPMENT</div>
+    </div>
+  );
+}
+
+/** Details for the In Development card: the pitch, its banner, and the fund with a coin slot. */
+export function DevPanel({ game }: { game: Game }) {
+  const fund = useFund();
+  const { target } = TIP_GOAL;
+  const raised = Math.max(0, fund.raised);
+  const lit = Math.min(CELLS, Math.floor((raised / target) * CELLS));
+  const banner = asset(game.capsule);
+  return (
+    <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 rounded-[22px] border p-4 backdrop-blur-md lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center lg:gap-8 lg:p-6"
+         style={{ ...themeVars(game.theme), borderColor: "color-mix(in srgb, var(--accent) 35%, transparent)", background: "color-mix(in srgb, var(--bg1) 60%, transparent)", color: "var(--text)" }}>
+      <div className="flex flex-col gap-3.5">
+        <span className="flex w-fit items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
+          <span className="arcade-rec-dot" /> IN DEVELOPMENT
+        </span>
+        {banner && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={banner} alt={game.name} loading="lazy" decoding="async" className="aspect-[2.33] w-full rounded-2xl border object-cover"
+               style={{ borderColor: "color-mix(in srgb, var(--accent) 30%, transparent)" }} />
+        )}
+        <p className="text-[15px] leading-relaxed opacity-90 lg:text-[17px]">{game.summary}</p>
+      </div>
+
+      <div className="rounded-2xl border bg-black/55 p-4" style={{ borderColor: "color-mix(in srgb, var(--accent) 25%, transparent)" }}>
+        <div className="flex items-end justify-between gap-3" style={{ fontFamily: MONO }}>
+          <span className="text-[11px] font-bold tracking-[0.25em] opacity-70">{TIP_GOAL.title.toUpperCase()}</span>
+          <span className="arcade-digits text-[24px] font-bold leading-none tabular-nums">
+            ${raised}<span className="ml-1 text-[13px] opacity-55">/{target}</span>
+          </span>
+        </div>
+        <div className="mt-3 grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${CELLS}, 1fr)` }}
+             role="progressbar" aria-valuemin={0} aria-valuemax={target} aria-valuenow={raised} aria-label={TIP_GOAL.title}>
+          {Array.from({ length: CELLS }, (_, i) => (
+            <span key={i} className={"arcade-cell h-3 rounded-[3px]" + (i < lit ? " is-lit" : i === lit && raised < target ? " is-next" : "")} />
+          ))}
+        </div>
+        {TIP_URL && (
+          <a href={TIP_URL} target="_blank" rel="noopener"
+             className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
+             style={{ background: "#ffd23f", color: "#1a1200" }}>
+            <Coin /> INSERT COIN
+          </a>
+        )}
+        <button type="button" onClick={scrollToFund} className="mt-3 w-full text-center text-[12px] font-semibold tracking-[0.14em] opacity-70 hover:opacity-100">
+          PRIZES · HIGH SCORES · GUESTBOOK ↓
+        </button>
+      </div>
     </div>
   );
 }

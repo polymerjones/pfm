@@ -36,7 +36,7 @@ export type MiniGameRef = {
 
 export type Game = {
   id: string;
-  kind?: "game" | "sponsor";
+  kind?: "game" | "sponsor" | "inDevelopment";
   name: string;
   titleLogo?: string;
   titleScale?: number;
@@ -67,7 +67,7 @@ const assets = assetsJson as Record<string, string>;
 
 export const featuredID = catalog.featured;
 export const games: Game[] = catalog.games.filter((game) => game.status !== "hidden");
-export const playableGames = games.filter((game) => game.kind !== "sponsor");
+export const playableGames = games.filter((game) => game.kind !== "sponsor" && game.kind !== "inDevelopment");
 
 export function gameByID(id: string): Game | undefined {
   return games.find((game) => game.id === id);

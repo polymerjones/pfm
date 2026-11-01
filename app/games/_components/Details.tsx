@@ -117,7 +117,7 @@ export function GameRows({ games, onSelect }: { games: Game[]; onSelect: (game: 
         <p className="text-sm" style={{ color: "color-mix(in srgb, var(--text) 60%, transparent)" }}>By Polymer Jones</p>
       </div>
       <div className="no-scrollbar flex snap-x snap-mandatory gap-3.5 overflow-x-auto px-5 pb-2" style={{ scrollPaddingInline: 20 }}>
-        {games.filter((game) => game.kind !== "sponsor").map((game) => (
+        {games.filter((game) => game.kind !== "sponsor" && game.kind !== "inDevelopment").map((game) => (
           <article
             key={game.id}
             className="w-[84vw] max-w-[440px] shrink-0 snap-start overflow-hidden rounded-2xl border"

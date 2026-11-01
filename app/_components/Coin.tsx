@@ -15,7 +15,7 @@ export default function Coin({ size = 26 }: { size?: number }) {
       <circle cx="16" cy="16" r="15.5" fill="#8a5a00" />
       <circle cx="16" cy="16" r="13.2" fill={`url(#${id}-face)`} stroke="#a66d00" strokeWidth="1.2" />
       <circle cx="16" cy="16" r="10.4" fill="none" stroke="#b97c00" strokeWidth="0.8" strokeDasharray="1.4 1.2" />
-      <text x="16" y="21.6" textAnchor="middle" fontSize="15" fontWeight="900" fill="#7a4d00"
+      <text x="16" y="16.8" textAnchor="middle" dominantBaseline="central" fontSize="15" fontWeight="900" fill="#7a4d00"
             fontFamily="-apple-system, BlinkMacSystemFont, system-ui, sans-serif">$</text>
     </svg>
   );
