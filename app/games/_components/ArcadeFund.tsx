@@ -111,7 +111,7 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
         <a href={tipURL} target="_blank" rel="noopener"
            className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3.5 text-[17px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
            style={{ background: "#ffd23f", color: "#1a1200" }}>
-          <Coin /> INSERT COIN
+          <Coin size={34} /> INSERT COIN
         </a>
         <p className="mt-2 text-center text-[10.5px] font-semibold tracking-[0.1em] opacity-60" style={{ fontFamily: MONO }}>
           $3 = 1 CREDIT · $5 = 2 · $10 = 4
@@ -280,7 +280,7 @@ export function BackItButton() {
     <button type="button" onClick={scrollToFund}
             className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-[14px] font-extrabold tracking-[0.14em] transition-transform active:scale-95"
             style={{ background: "#ffd23f", color: "#1a1200", boxShadow: "0 0 14px rgba(255,210,63,0.45)" }}>
-      <Coin size={22} /> BACK IT
+      <Coin size={28} /> BACK IT
     </button>
   );
 }
@@ -335,7 +335,7 @@ export function DevPanel({ game }: { game: Game }) {
           <a href={TIP_URL} target="_blank" rel="noopener"
              className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
              style={{ background: "#ffd23f", color: "#1a1200" }}>
-            <Coin /> INSERT COIN
+            <Coin size={34} /> INSERT COIN
           </a>
         )}
         <button type="button" onClick={scrollToFund} className="mt-3 w-full text-center text-[12px] font-semibold tracking-[0.14em] opacity-70 hover:opacity-100">
