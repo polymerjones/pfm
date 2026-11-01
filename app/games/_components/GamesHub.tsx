@@ -9,6 +9,7 @@ import Header from "./Header";
 import HeroCarousel from "./HeroCarousel";
 import { DetailPanel, GameRows, SponsorPanel } from "./Details";
 import { BackItButton, DevPanel, SupportCard } from "./ArcadeFund";
+import CreatorNote from "./CreatorNote";
 import IdentityStrip from "./IdentityStrip";
 import { GameActions } from "./StoreButtons";
 import ThemeStage from "./ThemeStage";
@@ -110,6 +111,9 @@ export default function GamesHub() {
               carousel.current?.(games.indexOf(game));
             }}
           />
+        </div>
+        <div className="pt-4">
+          <CreatorNote />
         </div>
         {TIP_URL && <SupportCard tipURL={TIP_URL} />}
       </div>

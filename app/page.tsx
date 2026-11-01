@@ -7,6 +7,7 @@ import { Gamepad2, Mail, Youtube } from "lucide-react";
 import ColorBends from "@/components/ColorBends";
 import VideoLogo from "@/components/VideoLogo";
 import LinkCard from "@/components/LinkCard";
+import AboutCard from "@/components/AboutCard";
 import ContactModal from "@/components/ContactModal";
 
 const LINKS = [
@@ -113,6 +114,10 @@ export default function HomePage() {
             ))}
           </div>
         </motion.section>
+
+        <motion.div variants={itemVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} className="flex w-full justify-center">
+          <AboutCard />
+        </motion.div>
 
         <div className="flex w-full justify-center pb-6">
           <Link
