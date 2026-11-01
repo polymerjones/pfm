@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bungee_Inline } from "next/font/google";
 import Coin from "@/app/_components/Coin";
+import Sparkles from "@/app/_components/Sparkles";
 import { asset, themeVars, type Game } from "../_lib/catalog";
 import { NEXT_GAME_PITCHES, TIP_GOAL, TIP_URL } from "../_lib/fund-config";
 import { timeAgo, useFund } from "../_lib/useFund";
@@ -109,8 +110,9 @@ export function SupportCard({ tipURL }: { tipURL: string }) {
         <p className="mt-1.5 text-right text-sm italic opacity-65">Polymer Jones</p>
 
         <a href={tipURL} target="_blank" rel="noopener"
-           className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3.5 text-[17px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
+           className="arcade-coin relative mt-4 flex items-center justify-center gap-2.5 rounded-full py-3.5 text-[17px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
            style={{ background: "#ffd23f", color: "#1a1200" }}>
+          <Sparkles />
           <Coin size={34} /> INSERT COIN
         </a>
         <p className="mt-2 text-center text-[10.5px] font-semibold tracking-[0.1em] opacity-60" style={{ fontFamily: MONO }}>
@@ -278,8 +280,9 @@ const scrollToFund = () => document.getElementById("support")?.scrollIntoView({ 
 export function BackItButton() {
   return (
     <button type="button" onClick={scrollToFund}
-            className="flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-[14px] font-extrabold tracking-[0.14em] transition-transform active:scale-95"
+            className="relative flex min-h-[44px] shrink-0 items-center gap-2 rounded-full px-4 text-[14px] font-extrabold tracking-[0.14em] transition-transform active:scale-95"
             style={{ background: "#ffd23f", color: "#1a1200", boxShadow: "0 0 14px rgba(255,210,63,0.45)" }}>
+      <Sparkles size={0.8} />
       <Coin size={28} /> BACK IT
     </button>
   );
@@ -333,9 +336,10 @@ export function DevPanel({ game }: { game: Game }) {
         </div>
         {TIP_URL && (
           <a href={TIP_URL} target="_blank" rel="noopener"
-             className="arcade-coin mt-4 flex items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
+             className="arcade-coin relative mt-4 flex items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
              style={{ background: "#ffd23f", color: "#1a1200" }}>
-            <Coin size={34} /> INSERT COIN
+            <Sparkles />
+          <Coin size={34} /> INSERT COIN
           </a>
         )}
         <button type="button" onClick={scrollToFund} className="mt-3 w-full text-center text-[12px] font-semibold tracking-[0.14em] opacity-70 hover:opacity-100">

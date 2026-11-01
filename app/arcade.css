@@ -72,6 +72,23 @@
     radial-gradient(ellipse at 50% 45%, rgba(255, 184, 0, 0.28), transparent 65%);
 }
 
+/* Golden sparkles around coin buttons: twinkle, spin a little and drift up (transform/opacity only). */
+.arcade-sparkles { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.arcade-sparkle {
+  position: absolute;
+  line-height: 1;
+  color: #fff8d6;
+  text-shadow: 0 0 4px #ffd23f, 0 0 10px #ffb800, 0 0 16px rgba(255, 184, 0, 0.6);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  animation: arcade-sparkle ease-in-out infinite both;
+}
+@keyframes arcade-sparkle {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(0deg); }
+  35% { opacity: 1; transform: translate(-50%, calc(-50% - 4px)) scale(1) rotate(45deg); }
+  100% { opacity: 0; transform: translate(-50%, calc(-50% - 16px)) scale(0.3) rotate(110deg); }
+}
+
 /* Guestbook crawl */
 .arcade-ticker-track { animation: arcade-ticker linear infinite; }
 @keyframes arcade-ticker { to { transform: translateX(-50%); } }
@@ -97,8 +114,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .arcade-sparkles { display: none; }
   .arcade-marquee::before, .arcade-marquee::after, .arcade-jackpot, .arcade-cell.is-lit, .arcade-cell.is-next,
-  .arcade-coin, .arcade-coin-icon, .arcade-rec-dot, .arcade-mini-cell.is-next, .arcade-confetti { animation: none !important; }
+  .arcade-coin, .arcade-coin-icon, .arcade-rec-dot, .arcade-sparkle, .arcade-mini-cell.is-next, .arcade-confetti { animation: none !important; }
   .arcade-ticker-track { animation: none !important; flex-wrap: wrap; white-space: normal; }
   .arcade-ticker-track > [aria-hidden] { display: none; }
 }
