@@ -299,69 +299,73 @@ export function DevHeroArt({ name }: { name: string }) {
   );
 }
 
-/** Details for the In Development card: the pitch, its banner, and the fund with a coin slot. */
+/** Details for the In Development card: teaser banners for the games being built, then the fund. */
 export function DevPanel({ game }: { game: Game }) {
   const fund = useFund();
   const { target } = TIP_GOAL;
   const raised = Math.max(0, fund.raised);
   const lit = Math.min(CELLS, Math.floor((raised / target) * CELLS));
   return (
-    <div className="mx-auto flex w-full max-w-[1180px] flex-col gap-4 rounded-[22px] border p-4 backdrop-blur-md lg:grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center lg:gap-8 lg:p-6"
+    <div className="mx-auto w-full max-w-[1180px] rounded-[22px] border p-4 backdrop-blur-md lg:p-6"
          style={{ ...themeVars(game.theme), borderColor: "color-mix(in srgb, var(--accent) 35%, transparent)", background: "color-mix(in srgb, var(--bg1) 60%, transparent)", color: "var(--text)" }}>
-      <div className="flex flex-col gap-3.5">
+      <div className="mx-auto flex max-w-[860px] flex-col gap-4">
         <span className="flex w-fit items-center gap-1.5 rounded-full border border-[#ffd23f]/60 bg-black/55 px-2.5 py-1 text-[11px] font-extrabold tracking-[0.12em] text-[#ffd23f]">
           <span className="arcade-rec-dot" /> IN DEVELOPMENT
         </span>
         {(game.upcoming ?? []).map((upcoming) => <UpcomingBanner key={upcoming.id} game={upcoming} />)}
-        <p className="text-[15px] leading-relaxed opacity-90 lg:text-[17px]">{game.summary}</p>
-      </div>
 
-      <div className="rounded-2xl border bg-black/55 p-4" style={{ borderColor: "color-mix(in srgb, var(--accent) 25%, transparent)" }}>
-        <div className="flex items-end justify-between gap-3" style={{ fontFamily: MONO }}>
-          <span className="text-[11px] font-bold tracking-[0.25em] opacity-70">{TIP_GOAL.title.toUpperCase()}</span>
-          <span className="arcade-digits text-[24px] font-bold leading-none tabular-nums">
-            ${raised}<span className="ml-1 text-[13px] opacity-55">/{target}</span>
-          </span>
+        <div className="rounded-2xl border bg-black/55 p-4" style={{ borderColor: "color-mix(in srgb, var(--accent) 25%, transparent)" }}>
+          <div className="flex items-end justify-between gap-3" style={{ fontFamily: MONO }}>
+            <span className="text-[11px] font-bold tracking-[0.25em] opacity-70">{TIP_GOAL.title.toUpperCase()}</span>
+            <span className="arcade-digits text-[24px] font-bold leading-none tabular-nums">
+              ${raised}<span className="ml-1 text-[13px] opacity-55">/{target}</span>
+            </span>
+          </div>
+          <div className="mt-3 grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${CELLS}, 1fr)` }}
+               role="progressbar" aria-valuemin={0} aria-valuemax={target} aria-valuenow={raised} aria-label={TIP_GOAL.title}>
+            {Array.from({ length: CELLS }, (_, i) => (
+              <span key={i} className={"arcade-cell h-3 rounded-[3px]" + (i < lit ? " is-lit" : i === lit && raised < target ? " is-next" : "")} />
+            ))}
+          </div>
+          {TIP_URL && (
+            <a href={TIP_URL} target="_blank" rel="noopener"
+               className="arcade-coin relative mx-auto mt-4 flex max-w-[460px] items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
+               style={{ background: "#ffd23f", color: "#1a1200" }}>
+              <Sparkles />
+              <Coin size={34} /> INSERT COIN
+            </a>
+          )}
+          <button type="button" onClick={scrollToFund} className="mt-3 w-full text-center text-[12px] font-semibold tracking-[0.14em] opacity-70 hover:opacity-100">
+            PRIZES · HIGH SCORES · GUESTBOOK ↓
+          </button>
         </div>
-        <div className="mt-3 grid gap-[3px]" style={{ gridTemplateColumns: `repeat(${CELLS}, 1fr)` }}
-             role="progressbar" aria-valuemin={0} aria-valuemax={target} aria-valuenow={raised} aria-label={TIP_GOAL.title}>
-          {Array.from({ length: CELLS }, (_, i) => (
-            <span key={i} className={"arcade-cell h-3 rounded-[3px]" + (i < lit ? " is-lit" : i === lit && raised < target ? " is-next" : "")} />
-          ))}
-        </div>
-        {TIP_URL && (
-          <a href={TIP_URL} target="_blank" rel="noopener"
-             className="arcade-coin relative mt-4 flex items-center justify-center gap-2.5 rounded-full py-3 text-[16px] font-extrabold tracking-[0.22em] transition-transform active:scale-95"
-             style={{ background: "#ffd23f", color: "#1a1200" }}>
-            <Sparkles />
-          <Coin size={34} /> INSERT COIN
-          </a>
-        )}
-        <button type="button" onClick={scrollToFund} className="mt-3 w-full text-center text-[12px] font-semibold tracking-[0.14em] opacity-70 hover:opacity-100">
-          PRIZES · HIGH SCORES · GUESTBOOK ↓
-        </button>
       </div>
     </div>
   );
 }
 
-/** One game in development: a crop of its key art with the title logo over a dark fade, then a line about it. */
+/** A teaser for a game in development: its key art slowly pushing in behind letterbox bars, the title
+ *  logo glowing over a dark fade, then a line about it. */
 function UpcomingBanner({ game }: { game: UpcomingGame }) {
   const logo = asset(game.titleLogo);
   return (
     <figure className="overflow-hidden rounded-2xl border" style={{ borderColor: "color-mix(in srgb, var(--accent) 30%, transparent)" }}>
       <div className="relative aspect-[2.33] w-full">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={asset(game.banner)} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={asset(game.banner)} alt="" loading="lazy" decoding="async" className="arcade-teaser-art absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75) 100%)" }} />
+        <div className="absolute inset-x-0 top-0 h-[7%] bg-black" />
+        <div className="absolute inset-x-0 bottom-0 h-[7%] bg-black" />
         {logo ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={logo} alt={game.name} loading="lazy" decoding="async"
-               className="absolute inset-x-0 bottom-[6%] mx-auto w-[62%] drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]" />
+               className="arcade-teaser-title absolute inset-x-0 bottom-[11%] mx-auto w-[62%]" />
         ) : (
           <span className="absolute inset-x-0 bottom-3 text-center text-2xl font-extrabold">{game.name}</span>
         )}
-        <span className="absolute right-2.5 top-2.5 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold tracking-[0.14em] text-white/85">IN DEVELOPMENT</span>
+        <span className="absolute right-3 top-[10%] flex items-center gap-1.5 rounded-full border border-white/25 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold tracking-[0.2em] text-white/90">
+          <span className="arcade-rec-dot" /> TEASER
+        </span>
       </div>
       {game.blurb && <figcaption className="bg-black/45 px-3.5 py-2.5 text-[14px] leading-snug opacity-90">{game.blurb}</figcaption>}
     </figure>
