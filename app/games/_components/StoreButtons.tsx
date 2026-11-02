@@ -10,66 +10,47 @@ type Size = "compact" | "stacked" | "wide";
 
 const storeName: Record<Store, string> = { apple: "App Store", google: "Google Play" };
 
-// The stores' own marks (Apple logo, Google Play triangle), from Simple Icons, drawn in currentColor.
-const storeLogo: Record<Store, string> = {
-  apple:
-    "M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701",
-  google:
-    "M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z",
+// The stores' official badges, unaltered (Apple's from developer.apple.com, Google's from
+// play.google.com with its transparent margin trimmed), shown at equal heights.
+const badge: Record<Store, { src: string; ratio: number }> = {
+  apple: { src: "/games/img/badges/app-store.svg", ratio: 119.664 / 40 },
+  google: { src: "/games/img/badges/google-play.webp", ratio: 564 / 168 },
 };
-
-function StoreLogo({ store, size }: { store: Store; size: number }) {
-  return (
-    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden className="shrink-0">
-      <path d={storeLogo[store]} />
-    </svg>
-  );
-}
+const badgeHeight: Record<Size, number> = { compact: 36, stacked: 40, wide: 52 };
 
 /**
- * One store pill: "Get it on the App Store" / "Get it on Google Play", or a dimmed "Coming soon"
- * while the game isn't live there. Colors come from the nearest theme variables (--accent, --bg0).
+ * One store badge linking to the game's store page, or, while the game isn't live there yet, a
+ * plain "Coming soon" chip in the theme colors (the badges themselves mustn't be dimmed or altered).
  */
 export function StoreButton({ game, store, size = "compact" }: { game: Game; store: Store; size?: Size }) {
   const url = store === "apple" ? appStoreURL(game) : playStoreURL(game);
-  // Each store goes live on its own: a listed ID means the store page is up.
-  const live = Boolean(url);
-  const big = size === "wide";
-  const stacked = size === "stacked";
-  const body = (
-    <>
-      <StoreLogo store={store} size={big ? 20 : 16} />
-      <span className="flex flex-col items-start leading-[1.05]">
-        <span className={big ? "text-[11px] font-medium" : "text-[10px] font-medium"}>
-          {live ? (store === "apple" ? "Get it on the" : "Get it on") : "Coming soon"}
-        </span>
-        <span className={"whitespace-nowrap font-bold " + (big ? "text-[19px]" : stacked ? "text-[14px]" : "text-[15px]")}>{storeName[store]}</span>
+  const height = badgeHeight[size];
+  if (url) {
+    const { src, ratio } = badge[store];
+    return (
+      <a href={url} target="_blank" rel="noopener" className="shrink-0 self-center transition-transform active:scale-95"
+         aria-label={`Get ${game.name} on ${storeName[store]}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- tiny static badge, no resizing needed */}
+        <img src={src} alt={`Get it on ${storeName[store]}`} width={Math.round(height * ratio)} height={height} draggable={false} />
+      </a>
+    );
+  }
+  return (
+    <span
+      className={"flex items-center justify-center rounded-full border-[1.5px] px-3.5 leading-[1.05] opacity-80 " + (size === "stacked" ? "w-full " : "")}
+      style={{ height, color: "var(--accent)", borderColor: "color-mix(in srgb, var(--accent) 55%, transparent)" }}
+      aria-label={`${game.name} is coming soon to ${storeName[store]}`}
+    >
+      <span className="flex flex-col items-center">
+        <span className="text-[10px] font-medium">Coming soon</span>
+        <span className={"whitespace-nowrap font-bold " + (size === "wide" ? "text-[17px]" : "text-[14px]")}>{storeName[store]}</span>
       </span>
-    </>
-  );
-  const className =
-    "flex items-center justify-center rounded-full transition-transform active:scale-95 " +
-    (big ? "gap-2 px-6 py-3 w-full " : stacked ? "gap-1.5 px-2 py-[7px] w-full min-h-[40px] " : "gap-2 px-3.5 py-[7px] ") +
-    (live ? "" : "opacity-60 ");
-  const style = {
-    color: "var(--bg0)",
-    background: "var(--accent)",
-    boxShadow: "0 0 14px color-mix(in srgb, var(--accent) 45%, transparent)",
-  };
-  return live ? (
-    <a href={url} target="_blank" rel="noopener" className={className} style={style}
-       aria-label={`Get ${game.name} on ${storeName[store]}`}>
-      {body}
-    </a>
-  ) : (
-    <span className={className} style={style} aria-label={`${game.name} is coming soon to ${storeName[store]}`}>
-      {body}
     </span>
   );
 }
 
 /**
- * The store pills on every device, this visitor's own store first (App Store on iPhone/desktop,
+ * The store badges on every device, this visitor's own store first (App Store on iPhone/desktop,
  * Google Play on Android). Wide and stacked show them all; compact shows the first one that's live.
  */
 export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Size }) {
@@ -81,7 +62,7 @@ export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Si
   const list = available.length ? available : stores.slice(0, 1);
   if (size === "wide") {
     return (
-      <div className="flex w-full flex-col gap-2.5 sm:flex-row lg:flex-col">
+      <div className="flex w-full flex-wrap items-center justify-center gap-3">
         {list.map((store) => <StoreButton key={store} game={game} store={store} size="wide" />)}
       </div>
     );
@@ -94,7 +75,7 @@ export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Si
 
 /**
  * A game's actions stacked in a column: TRY IT (its page, where the real game plays) over the
- * store pills. Sponsors and games without anything playable show just the store pill.
+ * store badges. Sponsors and games without anything playable show just the store badge.
  */
 export function GameActions({ game }: { game: Game }) {
   if (game.kind === "sponsor" || !playables(game).length) return <StoreButtons game={game} />;
