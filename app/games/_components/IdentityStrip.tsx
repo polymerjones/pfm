@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { asset, type Game } from "../_lib/catalog";
 import type { PositionStore } from "../_lib/position";
 
@@ -18,6 +18,9 @@ export default function IdentityStrip({
   actions: (game: Game) => ReactNode;
 }) {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // Only the starting game's strip shows before the first position update, so the server HTML
+  // doesn't flash every strip stacked on top of each other. Fixed after mount; the effect owns it.
+  const [start] = useState(() => Math.round(position.get()));
 
   useEffect(
     () =>
@@ -45,6 +48,8 @@ export default function IdentityStrip({
             itemRefs.current[index] = node;
           }}
           className="col-start-1 row-start-1 flex flex-col items-center gap-3 will-change-transform"
+          style={index === start ? undefined : { opacity: 0, visibility: "hidden", pointerEvents: "none" }}
+          aria-hidden={index === start ? undefined : true}
         >
           {game.titleLogo ? (
             // eslint-disable-next-line @next/next/no-img-element
