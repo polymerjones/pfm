@@ -16,10 +16,11 @@ export default function CreatorNote() {
           A NOTE FROM POLYMER JONES
         </h2>
         <blockquote className="mx-auto mt-3 max-w-[640px] text-[22px] font-semibold leading-snug lg:text-[30px]">
-          {STATEMENT_KICKER.lead}
-          <br />
-          {STATEMENT_KICKER.tail}{" "}
-          <span style={{ color: "var(--accent)", textShadow: "0 0 14px var(--glow-soft)" }}>{STATEMENT_KICKER.word}.</span>
+          <span className="block [text-wrap:balance]">{STATEMENT_KICKER.lead}</span>
+          <span className="mt-[0.35em] block [text-wrap:balance]">
+            {STATEMENT_KICKER.tail}{" "}
+            <span style={{ color: "var(--accent)", textShadow: "0 0 14px var(--glow-soft)" }}>{STATEMENT_KICKER.word}.</span>
+          </span>
         </blockquote>
         {more && <p className="about-reveal mx-auto mt-4 max-w-[640px] text-[15px] leading-relaxed lg:text-[17px]">{STATEMENT_BODY}</p>}
         <p className="mt-3 text-sm italic opacity-65">— Polymer Jones</p>

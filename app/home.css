@@ -257,6 +257,13 @@
   text-transform: uppercase;
   color: #fff;
 }
+.home-kicker span {
+  display: block;
+  text-wrap: balance;
+}
+.home-kicker span + span {
+  margin-top: 0.35em;
+}
 .home-kicker b {
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.65), 0 0 28px rgba(255, 255, 255, 0.3);
 }

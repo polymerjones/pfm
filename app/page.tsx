@@ -87,9 +87,8 @@ export default function HomePage() {
         <h2 id="about-heading" className="home-byline">About</h2>
         <p>{STATEMENT_BODY}</p>
         <p className="home-kicker">
-          {STATEMENT_KICKER.lead}
-          <br />
-          {STATEMENT_KICKER.tail} <b>{STATEMENT_KICKER.word}.</b>
+          <span>{STATEMENT_KICKER.lead}</span>
+          <span>{STATEMENT_KICKER.tail} <b>{STATEMENT_KICKER.word}.</b></span>
         </p>
         <p className="home-sig">— Paul Fisher</p>
       </section>
