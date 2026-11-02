@@ -43,7 +43,9 @@ export default function HomePage() {
       <BendsBackground />
       <HomeTouch />
 
-      <div className="home-enter relative mx-auto w-full max-w-[980px]">
+      {/* No entrance animation here: a transformed ancestor would trap the logo's page-wide flash inside the logo's box
+          (position: fixed becomes relative to it). The video fades itself in. */}
+      <div className="relative mx-auto w-full max-w-[980px]">
         <VideoLogo src="/logo.mp4" flash />
       </div>
 
