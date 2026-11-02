@@ -19,6 +19,7 @@ export function StoreButton({ game, store, size = "compact" }: { game: Game; sto
   // Each store goes live on its own: a listed ID means the store page is up.
   const live = Boolean(url);
   const big = size === "wide";
+  const stacked = size === "stacked";
   const body = (
     <>
       {live ? <Download size={big ? 20 : 16} strokeWidth={2.5} /> : <Clock size={big ? 20 : 16} strokeWidth={2.5} />}
@@ -26,14 +27,13 @@ export function StoreButton({ game, store, size = "compact" }: { game: Game; sto
         <span className={big ? "text-[11px] font-medium" : "text-[10px] font-medium"}>
           {live ? (store === "apple" ? "Get it on the" : "Get it on") : "Coming soon"}
         </span>
-        <span className={big ? "text-[19px] font-bold" : "text-[15px] font-bold"}>{storeName[store]}</span>
+        <span className={"whitespace-nowrap font-bold " + (big ? "text-[19px]" : stacked ? "text-[14px]" : "text-[15px]")}>{storeName[store]}</span>
       </span>
     </>
   );
   const className =
-    "flex items-center justify-center gap-2 rounded-full transition-transform active:scale-95 " +
-    (big ? "px-6 py-3 w-full " : "px-3.5 py-[7px] ") +
-    (size === "stacked" ? "w-full min-h-[40px] " : "") +
+    "flex items-center justify-center rounded-full transition-transform active:scale-95 " +
+    (big ? "gap-2 px-6 py-3 w-full " : stacked ? "gap-1.5 px-2 py-[7px] w-full min-h-[40px] " : "gap-2 px-3.5 py-[7px] ") +
     (live ? "" : "opacity-60 ");
   const style = {
     color: "var(--bg0)",
@@ -54,7 +54,7 @@ export function StoreButton({ game, store, size = "compact" }: { game: Game; sto
 
 /**
  * The store pills on every device, this visitor's own store first (App Store on iPhone/desktop,
- * Google Play on Android). Wide shows them all; compact rows show the first one that's live.
+ * Google Play on Android). Wide and stacked show them all; compact shows the first one that's live.
  */
 export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Size }) {
   const platform = usePlatform();
@@ -70,12 +70,15 @@ export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Si
       </div>
     );
   }
+  if (size === "stacked") {
+    return <>{list.map((store) => <StoreButton key={store} game={game} store={store} size="stacked" />)}</>;
+  }
   return <StoreButton game={game} store={list.find(storeID) ?? list[0]} size={size} />;
 }
 
 /**
- * A game's two actions stacked as a pair: TRY IT (its page, where the real game plays) over the
- * store pill. Sponsors and games without anything playable show just the store pill.
+ * A game's actions stacked in a column: TRY IT (its page, where the real game plays) over the
+ * store pills. Sponsors and games without anything playable show just the store pill.
  */
 export function GameActions({ game }: { game: Game }) {
   if (game.kind === "sponsor" || !playables(game).length) return <StoreButtons game={game} />;
