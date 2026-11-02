@@ -1,0 +1,301 @@
+/* Home page (paulfishermedia.com). Built for smooth phone scrolling: the swirl is one opaque canvas, nothing animates on
+   scroll, and every effect moves only transform, opacity or clip-path on small elements. */
+.home {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  background: radial-gradient(110% 80% at 50% 20%, #1c1c1c 0, #0a0a0a 70%);
+}
+.home-bends {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100lvh;
+  pointer-events: none;
+  transform: translateZ(0);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.home-bends[data-on] {
+  opacity: 1;
+}
+.home-byline {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+/* Plays once on load; nothing re-animates on scroll. */
+.home-enter {
+  animation: home-enter 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes home-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+/* Links: the Games tile (01) and the numbered rows (02-04). */
+.home-games,
+.home-row {
+  position: relative;
+  display: flex;
+  color: #fff;
+  text-decoration: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+.home-games {
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(22, 22, 22, 0.86);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.home-games:active {
+  transform: scale(0.98);
+}
+.home-art {
+  position: relative;
+  aspect-ratio: 7 / 3;
+}
+.home-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.home-art img + img {
+  animation: home-swap 8s ease-in-out infinite;
+}
+@keyframes home-swap {
+  0%, 42% { opacity: 0; }
+  50%, 92% { opacity: 1; }
+  100% { opacity: 0; }
+}
+/* A light sweeps across the tile when it's pressed or hovered. */
+.home-games::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 40%, rgba(255, 255, 255, 0.28) 50%, transparent 60%);
+  transform: translateX(-110%);
+}
+.home-cap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 18px;
+}
+.home-index {
+  margin-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.home-row {
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 4px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: padding 0.2s ease, background-color 0.2s ease;
+}
+/* A light runs along the divider when the row is pressed or hovered. */
+.home-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fff 30%, #fff 70%, transparent);
+  box-shadow: 0 0 12px 1px rgba(255, 255, 255, 0.7);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.home-num {
+  flex: none;
+  width: 22px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.45);
+}
+.home-txt {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.home-lab {
+  position: relative;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.home-games .home-lab {
+  font-size: 30px;
+}
+/* Chrome wipe: a chrome copy of the title is revealed left to right. */
+.home-lab::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  background: linear-gradient(100deg, #8a8a8a 0%, #fff 22%, #bdbdbd 40%, #fff 55%, #7d7d7d 75%, #eee 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  clip-path: inset(0 100% 0 0);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
+  transition: clip-path 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.home-sub {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.home-go {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  opacity: 0.7;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s;
+}
+
+/* Lit state: .hot while a finger is on it (HomeTouch), or :hover with a mouse. */
+.home-games.hot .home-lab::after,
+.home-row.hot .home-lab::after {
+  clip-path: inset(0 0 0 0);
+}
+.home-row.hot::after {
+  transform: scaleX(1);
+}
+.home-row.hot {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.home-games.hot .home-go,
+.home-row.hot .home-go {
+  transform: translateX(6px) scale(1.15);
+  opacity: 1;
+}
+.home-games.hot .home-art img {
+  transform: scale(1.05);
+}
+.home-games.hot::after {
+  transform: translateX(110%);
+  transition: transform 0.7s ease;
+}
+@media (hover: hover) {
+  .home-games:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  .home-row:hover {
+    padding-left: 12px;
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+  .home-games:hover .home-lab::after,
+  .home-row:hover .home-lab::after {
+    clip-path: inset(0 0 0 0);
+  }
+  .home-row:hover::after {
+    transform: scaleX(1);
+  }
+  .home-games:hover .home-go,
+  .home-row:hover .home-go {
+    transform: translateX(6px) scale(1.15);
+    opacity: 1;
+  }
+  .home-games:hover .home-art img {
+    transform: scale(1.05);
+  }
+  .home-games:hover::after {
+    transform: translateX(110%);
+    transition: transform 0.7s ease;
+  }
+}
+
+/* About: a pull-quote. */
+.home-about {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 4px 0 4px 18px;
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+}
+.home-about p {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+.home-about .home-kicker {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.home-kicker b {
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.65), 0 0 28px rgba(255, 255, 255, 0.3);
+}
+.home-about .home-sig {
+  text-align: right;
+  font-size: 14px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* The old-web copyright line (its year is always current). */
+.home-stamp {
+  max-width: 480px;
+  margin: 26px auto 0;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  color: rgba(255, 255, 255, 0.62);
+}
+.home-stamp hr {
+  width: 60%;
+  margin: 0 auto 12px;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+}
+.home-stamp p {
+  margin: 0;
+  font-size: 14px;
+}
+.home-stamp .home-netscape {
+  margin-top: 4px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-enter,
+  .home-art img + img {
+    animation: none;
+  }
+}

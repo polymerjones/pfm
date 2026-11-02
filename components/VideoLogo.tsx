@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import { RotateCcw, Volume2, VolumeX } from "lucide-react";
 
 type VideoLogoProps = {
@@ -17,6 +16,19 @@ type VideoLogoProps = {
  * Chrome on a Mac plays HEVC but drops its alpha channel.
  */
 const ALPHA = { hevc: "/logo-alpha.mov", webm: "/logo-alpha.webm", still: "/logo-final.webp" };
+
+/** prefers-reduced-motion, live (kept here so the home page doesn't load framer-motion for one media query). */
+function useReducedMotion() {
+  const [reduce, setReduce] = useState(false);
+  useEffect(() => {
+    const query = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduce(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return reduce;
+}
 
 function pickSource(fallback: string): string {
   const probe = document.createElement("video");

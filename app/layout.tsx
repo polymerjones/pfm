@@ -6,7 +6,7 @@ import KofiFooter from "./_components/KofiFooter";
 
 export const metadata: Metadata = {
   title: "Paul Fisher Media",
-  description: "Links to Poly Oracle, Poly Play, YouTube, and Contact.",
+  description: "Games, film, photography and video by Paul Fisher.",
   metadataBase: new URL("https://paulfishermedia.com"),
   icons: {
     icon: [{ url: "/favicon.jpg?v=5", type: "image/jpeg" }],
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Paul Fisher Media",
-    description: "Links to Poly Oracle, Poly Play, YouTube, and Contact.",
+    description: "Games, film, photography and video by Paul Fisher.",
     url: "https://paulfishermedia.com",
     siteName: "Paul Fisher Media",
     type: "website"
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Paul Fisher Media",
-    description: "Links to Poly Oracle, Poly Play, YouTube, and Contact."
+    description: "Games, film, photography and video by Paul Fisher."
   }
 };
 

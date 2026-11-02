@@ -1,150 +1,113 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
 import Link from "next/link";
-import { Clapperboard, Gamepad2, Mail, Youtube } from "lucide-react";
-import ColorBends from "@/components/ColorBends";
+import type { CSSProperties } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import BendsBackground from "@/components/BendsBackground";
 import VideoLogo from "@/components/VideoLogo";
-import LinkCard from "@/components/LinkCard";
-import AboutCard from "@/components/AboutCard";
-import ContactModal from "@/components/ContactModal";
+import ContactRow from "@/components/ContactRow";
+import HomeTouch from "@/components/HomeTouch";
+import Year from "@/components/Year";
+import { STATEMENT_BODY, STATEMENT_KICKER } from "@/app/_lib/statement";
+import "./home.css";
 
-/** Polyflix (film, photo and editing work). The FILM & PHOTO button stays hidden until this is set. */
+/** Polyflix (film, photo and editing work). The FILM & PHOTO row stays hidden until this is set. */
 const POLYFLIX_URL: string | undefined = "https://polyflix.app";
 
-const LINKS = [
-  {
-    label: "Games",
-    href: "/games",
-    icon: Gamepad2,
-    kind: "internal" as const,
-    ariaLabel: "Open Games by Polymer Jones"
-  },
-  ...(POLYFLIX_URL
-    ? [
-        {
-          label: "Film & Photo",
-          href: POLYFLIX_URL,
-          icon: Clapperboard,
-          kind: "external" as const,
-          ariaLabel: "Open Polyflix: film, photography and editing"
-        }
-      ]
-    : []),
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/paulfishermedia",
-    icon: Youtube,
-    iconUrl: "https://www.google.com/s2/favicons?domain=youtube.com&sz=128",
-    kind: "external" as const,
-    ariaLabel: "Open Paul Fisher Media YouTube"
-  },
-  {
-    label: "Contact",
-    icon: Mail,
-    kind: "contact" as const,
-    ariaLabel: "Open contact form"
-  }
-] as const;
+type Row = { label: string; sub: string; href?: string };
+
+/** Rows 02 and on, under the Games tile; the one without an href is Contact (opens the form). */
+const ROWS: Row[] = [
+  ...(POLYFLIX_URL ? [{ label: "Film & Photo", sub: "Polyflix · film, photography, editing", href: POLYFLIX_URL }] : []),
+  { label: "YouTube", sub: "@paulfishermedia", href: "https://www.youtube.com/paulfishermedia" },
+  { label: "Contact", sub: "Work with me" }
+];
+
+const enter = (delay: number): CSSProperties => ({ animationDelay: `${delay}s` });
+
+function RowBody({ n, row }: { n: number; row: Row }) {
+  const Go = row.href ? ArrowUpRight : ArrowRight;
+  return (
+    <>
+      <span className="home-num">{String(n).padStart(2, "0")}</span>
+      <span className="home-txt">
+        <span className="home-lab" data-text={row.label}>{row.label}</span>
+        <span className="home-sub">{row.sub}</span>
+      </span>
+      <Go className="home-go" aria-hidden />
+    </>
+  );
+}
 
 export default function HomePage() {
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
-
-  const parentVariants = useMemo<Variants>(
-    () => ({
-      hidden: { opacity: 0 },
-      show: {
-        opacity: 1,
-        transition: {
-          staggerChildren: reduceMotion ? 0 : 0.12,
-          delayChildren: reduceMotion ? 0 : 0.15
-        }
-      }
-    }),
-    [reduceMotion]
-  );
-
-  const itemVariants = useMemo<Variants>(
-    () => ({
-      hidden: { opacity: 0, y: reduceMotion ? 0 : 18, scale: reduceMotion ? 1 : 0.98 },
-      show: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: {
-          duration: reduceMotion ? 0.01 : 0.45,
-          ease: [0.16, 1, 0.3, 1]
-        }
-      }
-    }),
-    [reduceMotion]
-  );
-
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-[#0a0a0a] px-4 py-10 sm:px-6 sm:py-14">
-      <div className="pointer-events-none fixed -inset-12 z-0 opacity-95 [mix-blend-mode:screen] sm:-inset-20">
-        <ColorBends
-          rotation={45}
-          speed={0.15}
-          colors={["#666666", "#000000", "#000000"]}
-          transparent
-          autoRotate={0.35}
-          scale={1}
-          frequency={1}
-          warpStrength={1}
-          mouseInfluence={1}
-          parallax={0.5}
-          noise={0.1}
-        />
-      </div>
-      <div className="pointer-events-none fixed inset-0 z-[1] bg-[radial-gradient(110%_80%_at_50%_20%,transparent_20%,rgba(10,10,10,0.5)_65%,rgba(10,10,10,0.86)_100%)]" />
-      {/* The logo sits in the page flow (above the buttons), never behind them. */}
-      <div className="relative z-10 mx-auto w-full max-w-[980px]">
+    <main className="home relative min-h-screen overflow-x-clip px-4 pb-8 pt-6">
+      <BendsBackground />
+      <HomeTouch />
+
+      <div className="home-enter relative mx-auto w-full max-w-[980px]">
         <VideoLogo src="/logo.mp4" flash />
       </div>
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center gap-8 -mt-4 sm:-mt-14 sm:gap-10">
-        <motion.section
-          variants={parentVariants}
-          initial="hidden"
-          animate="show"
-          className="w-full"
-          aria-label="Paul Fisher Media links"
-        >
-          <div className="flex w-full flex-col items-center gap-3">
-            {LINKS.map((link, index) => (
-              <LinkCard
-                key={link.label}
-                label={link.label}
-                icon={link.icon}
-                iconUrl={"iconUrl" in link ? link.iconUrl : undefined}
-                href={link.kind !== "contact" ? link.href : undefined}
-                kind={link.kind}
-                onContact={() => setIsContactOpen(true)}
-                ariaLabel={link.ariaLabel}
-                delay={reduceMotion ? 0 : 0.06 * index}
-              />
-            ))}
-          </div>
-        </motion.section>
+      <nav aria-label="Paul Fisher Media links" className="relative mx-auto -mt-2 mb-9 w-full max-w-[480px]">
+        <Link href="/games" className="home-games home-enter" style={enter(0.12)} aria-label="Games by Polymer Jones">
+          <span className="home-art">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/games/img/mt-capsule.webp" alt="" width={1400} height={600} decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/games/img/po-capsule.webp" alt="" width={1400} height={600} decoding="async" loading="lazy" />
+          </span>
+          <span className="home-cap">
+            <span className="home-num">01</span>
+            <span className="home-txt">
+              <span className="home-byline" style={{ fontSize: 10 }}>Games by Polymer Jones</span>
+              <span className="home-lab" data-text="Games">Games</span>
+              <span className="home-sub">Monkey Trubble · Poly Oracle · play free in your browser</span>
+            </span>
+            <ArrowRight className="home-go" aria-hidden />
+          </span>
+        </Link>
 
-        <motion.div variants={itemVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} className="flex w-full justify-center">
-          <AboutCard />
-        </motion.div>
-
-        <div className="flex w-full justify-center pb-6">
-          <Link
-            href="/polyplay-audio/privacy"
-            className="rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/72 transition hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            PolyPlay Audio Privacy
-          </Link>
+        <div className="home-index">
+          {ROWS.map((row, i) =>
+            row.href ? (
+              <a key={row.label} href={row.href} target="_blank" rel="noopener noreferrer" className="home-row home-enter" style={enter(0.2 + i * 0.07)}>
+                <RowBody n={i + 2} row={row} />
+              </a>
+            ) : (
+              <ContactRow key={row.label} className="home-row home-enter" style={enter(0.2 + i * 0.07)}>
+                <RowBody n={i + 2} row={row} />
+              </ContactRow>
+            )
+          )}
         </div>
-      </div>
+      </nav>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <section aria-labelledby="about-heading" className="home-about home-enter relative" style={enter(0.45)}>
+        <h2 id="about-heading" className="home-byline">About</h2>
+        <p>{STATEMENT_BODY}</p>
+        <p className="home-kicker">
+          {STATEMENT_KICKER.lead}
+          <br />
+          {STATEMENT_KICKER.tail} <b>{STATEMENT_KICKER.word}.</b>
+        </p>
+        <p className="home-sig">— Paul Fisher</p>
+      </section>
+
+      <footer className="home-stamp relative">
+        <hr />
+        <p>
+          Copyright &copy; <Year /> Paul Fisher Media. All Rights Reserved.
+        </p>
+        <p className="home-netscape">Best viewed in Netscape Navigator at 800&nbsp;&times;&nbsp;600</p>
+      </footer>
+
+      <div className="relative mt-7 flex justify-center">
+        <Link
+          href="/polyplay-audio/privacy"
+          className="rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72 transition hover:bg-white/[0.08] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+        >
+          PolyPlay Audio Privacy
+        </Link>
+      </div>
     </main>
   );
 }
