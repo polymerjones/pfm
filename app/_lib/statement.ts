@@ -3,4 +3,4 @@ export const STATEMENT_BODY =
   "I’m passionate about creating things that entertain, inspire, and leave a lasting impression. Whether it’s video production, animation, or game development, I love finding ways to maximize audience impact. Every project I release carries my personal creative stamp, from the smallest details to the overall experience.";
 
 /** The closing line, split so "memorable" can be emphasized. */
-export const STATEMENT_KICKER = { lead: "I don’t just want to make things—", tail: "I want to make things", word: "memorable" };
+export const STATEMENT_KICKER = { lead: "I don’t just want to make things—", tail: "I want to make things that are", word: "memorable" };
