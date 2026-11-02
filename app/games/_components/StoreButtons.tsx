@@ -16,7 +16,8 @@ const storeName: Record<Store, string> = { apple: "App Store", google: "Google P
  */
 export function StoreButton({ game, store, size = "compact" }: { game: Game; store: Store; size?: Size }) {
   const url = store === "apple" ? appStoreURL(game) : playStoreURL(game);
-  const live = game.status === "released" && url;
+  // Each store goes live on its own: a listed ID means the store page is up.
+  const live = Boolean(url);
   const big = size === "wide";
   const body = (
     <>
@@ -51,13 +52,16 @@ export function StoreButton({ game, store, size = "compact" }: { game: Game; sto
   );
 }
 
-/** The store pill(s) for this visitor's device: one on phones, both on desktop. */
+/**
+ * The store pills on every device, this visitor's own store first (App Store on iPhone/desktop,
+ * Google Play on Android). Wide shows them all; compact rows show the first one that's live.
+ */
 export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Size }) {
   const platform = usePlatform();
-  const stores: Store[] =
-    platform === "ios" ? ["apple"] : platform === "android" ? ["google"] : ["apple", "google"];
-  // A game that isn't on Google Play at all shows only the App Store, and vice versa.
-  const available = stores.filter((store) => (store === "apple" ? game.appStoreID || game.status !== "released" : game.playStoreID || game.status !== "released"));
+  const stores: Store[] = platform === "android" ? ["google", "apple"] : ["apple", "google"];
+  const storeID = (store: Store) => (store === "apple" ? game.appStoreID : game.playStoreID);
+  // A released game that isn't on a store at all leaves that store out instead of "Coming soon".
+  const available = stores.filter((store) => storeID(store) || game.status !== "released");
   const list = available.length ? available : stores.slice(0, 1);
   if (size === "wide") {
     return (
@@ -66,7 +70,7 @@ export function StoreButtons({ game, size = "compact" }: { game: Game; size?: Si
       </div>
     );
   }
-  return <StoreButton game={game} store={list[0]} size={size} />;
+  return <StoreButton game={game} store={list.find(storeID) ?? list[0]} size={size} />;
 }
 
 /**

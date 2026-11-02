@@ -86,7 +86,7 @@ export function DetailPanel({ game, paused, onOpenFeed }: { game: Game; paused: 
             <dt className="opacity-55">PLATFORMS</dt>
             <dd>{platforms.join(" · ")}</dd>
             <dt className="opacity-55">STATUS</dt>
-            <dd>{game.status === "released" ? "Available now" : "Coming soon"}</dd>
+            <dd>{game.status === "released" || game.appStoreID || game.playStoreID ? "Available now" : "Coming soon"}</dd>
           </dl>
         </section>
 
