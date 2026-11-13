@@ -55,9 +55,10 @@
           "gameplay": false
         }
       ],
+      "appStoreID": "6822473244",
       "playStoreID": "com.paulfisher.monkeytrubble",
       "urlScheme": "monkeytrubble",
-      "status": "comingSoon",
+      "status": "released",
       "theme": {
         "background": [
           "#030A05",
